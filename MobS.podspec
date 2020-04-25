@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'MobS'
-  s.version = '0.0.1'
+  s.version = '0.0.2'
   s.summary = 'Simple, safe state management for swift'
   s.description = 'MobS is a simple and safe state management library transparently applying functional reactive programming (TFRP) and is inspired by [MobX](https://mobx.js.org/).'
   s.license = { type: 'MIT', file: 'LICENSE' }
