@@ -1,0 +1,6 @@
+framework module MobS {
+  umbrella header "MobS-umbrella.h"
+
+  export *
+  module * { export * }
+}

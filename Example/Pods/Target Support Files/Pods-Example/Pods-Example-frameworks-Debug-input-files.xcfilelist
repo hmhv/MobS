@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh
+${BUILT_PRODUCTS_DIR}/MobS/MobS.framework
+${BUILT_PRODUCTS_DIR}/SoftUIView/SoftUIView.framework

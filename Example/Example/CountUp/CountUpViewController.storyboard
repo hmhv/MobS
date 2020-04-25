@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Yso-Nd-5QB">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Count Up View Controller-->
+        <scene sceneID="Yuw-Ka-Z2s">
+            <objects>
+                <viewController id="Yso-Nd-5QB" customClass="CountUpViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5dl-3Y-UK0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mIp-5d-93b">
+                                <rect key="frame" x="20" y="141" width="374" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="EPJ-wh-8rC"/>
+                                </constraints>
+                                <state key="normal" title="Count Up"/>
+                                <connections>
+                                    <action selector="buttonTapped:" destination="Yso-Nd-5QB" eventType="touchUpInside" id="cEg-PP-NrY"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ikJ-en-haK">
+                                <rect key="frame" x="20" y="81" width="374" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="BYq-Zf-0UT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="ikJ-en-haK" firstAttribute="leading" secondItem="bJv-FC-kLm" secondAttribute="leading" constant="20" id="4Lq-og-qgX"/>
+                            <constraint firstItem="ikJ-en-haK" firstAttribute="top" secondItem="bJv-FC-kLm" secondAttribute="top" constant="37" id="6R9-FD-hMx"/>
+                            <constraint firstItem="mIp-5d-93b" firstAttribute="top" secondItem="ikJ-en-haK" secondAttribute="bottom" constant="10" id="CD0-6r-2lK"/>
+                            <constraint firstItem="bJv-FC-kLm" firstAttribute="trailing" secondItem="ikJ-en-haK" secondAttribute="trailing" constant="20" id="cRK-VV-Ka8"/>
+                            <constraint firstItem="mIp-5d-93b" firstAttribute="leading" secondItem="bJv-FC-kLm" secondAttribute="leading" constant="20" id="pI9-gf-8hb"/>
+                            <constraint firstItem="bJv-FC-kLm" firstAttribute="trailing" secondItem="mIp-5d-93b" secondAttribute="trailing" constant="20" id="sq4-cu-jB7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bJv-FC-kLm"/>
+                    </view>
+                    <connections>
+                        <outlet property="countLabel" destination="ikJ-en-haK" id="EEu-Dy-nqb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="STA-K3-gKY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="153.62318840579712" y="136.60714285714286"/>
+        </scene>
+    </scenes>
+</document>

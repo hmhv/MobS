@@ -1,0 +1,23 @@
+PODS:
+  - MobS (0.0.1)
+  - SoftUIView (0.0.2)
+
+DEPENDENCIES:
+  - MobS (from `..`)
+  - SoftUIView
+
+SPEC REPOS:
+  trunk:
+    - SoftUIView
+
+EXTERNAL SOURCES:
+  MobS:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  MobS: 7aea184a05065c57baeb697a36adab459b2bcd14
+  SoftUIView: e04596489fc59b5c50ba4b2f970d82a277430263
+
+PODFILE CHECKSUM: 03b81c4fdef7a365224d8694951f632e84d13d80
+
+COCOAPODS: 1.8.4

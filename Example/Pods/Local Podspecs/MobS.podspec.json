@@ -1,0 +1,28 @@
+{
+  "name": "MobS",
+  "version": "0.0.1",
+  "summary": "MobS is a Soft-UI (Neumorphism) view written in Swift.",
+  "description": "MobS is a Soft-UI (Neumorphism) view written in Swift. check https://uxdesign.cc/neumorphism-in-user-interfaces-b47cef3bf3a6 for more infomation.",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "homepage": "https://github.com/hmhv/MobS",
+  "social_media_url": "https://hmhv.info",
+  "authors": {
+    "hmhv": "admin@hmhv.info"
+  },
+  "swift_versions": "5.1",
+  "platforms": {
+    "ios": "10.0"
+  },
+  "ios": {
+    "frameworks": "Foundation"
+  },
+  "source": {
+    "git": "https://github.com/hmhv/MobS.git",
+    "tag": "0.0.1"
+  },
+  "source_files": "Sources/MobS/**/*.swift",
+  "swift_version": "5.1"
+}
