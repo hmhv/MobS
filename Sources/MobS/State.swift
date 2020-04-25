@@ -17,10 +17,16 @@ extension MobS {
 
         public init(initialState: T) {
             self.state = initialState
+            if MobS.isTraceEnabled {
+                MobS.numberOfState += 1
+            }
         }
 
         deinit {
             notifier.remove()
+            if MobS.isTraceEnabled {
+                MobS.numberOfState -= 1
+            }
         }
 
         public var wrappedValue: T {

@@ -12,6 +12,18 @@ final class Notifier {
     private lazy var id = Unmanaged.passUnretained(self).toOpaque().hashValue
     private(set) var updaters = Set<Updater>()
 
+    init() {
+        if MobS.isTraceEnabled {
+            MobS.numberOfNotifier += 1
+        }
+    }
+
+    deinit {
+        if MobS.isTraceEnabled {
+            MobS.numberOfNotifier -= 1
+        }
+    }
+
     func add(updater: Updater) {
         updaters.insert(updater)
     }

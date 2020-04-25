@@ -15,6 +15,15 @@ final class Updater {
 
     init(action: @escaping () -> Void) {
         self.action = action
+        if MobS.isTraceEnabled {
+            MobS.numberOfUpdater += 1
+        }
+    }
+
+    deinit {
+        if MobS.isTraceEnabled {
+            MobS.numberOfUpdater -= 1
+        }
     }
 
     func add(notifier: Notifier) {

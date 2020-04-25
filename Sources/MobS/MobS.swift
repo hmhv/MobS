@@ -35,6 +35,28 @@ public final class MobS {
 
 }
 
+extension MobS {
+
+    public static var isTraceEnabled = false {
+        didSet {
+            numberOfUpdater = 0
+            numberOfState = 0
+            numberOfNotifier = 0
+        }
+    }
+
+    static var numberOfUpdater = 0 {
+        didSet { debugPrint("Updater = \(numberOfUpdater), State = \(numberOfState), Notifier = \(numberOfNotifier)") }
+    }
+    static var numberOfState = 0 {
+        didSet { debugPrint("Updater = \(numberOfUpdater), State = \(numberOfState), Notifier = \(numberOfNotifier)") }
+    }
+    static var numberOfNotifier = 0 {
+        didSet { debugPrint("Updater = \(numberOfUpdater), State = \(numberOfState), Notifier = \(numberOfNotifier)") }
+    }
+
+}
+
 func runOnMainThread<T>(action: () -> T) -> T {
     if Thread.isMainThread {
         return action()
