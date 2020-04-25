@@ -1,8 +1,8 @@
 {
   "name": "MobS",
   "version": "0.0.1",
-  "summary": "MobS is a Soft-UI (Neumorphism) view written in Swift.",
-  "description": "MobS is a Soft-UI (Neumorphism) view written in Swift. check https://uxdesign.cc/neumorphism-in-user-interfaces-b47cef3bf3a6 for more infomation.",
+  "summary": "Simple, safe state management for swift",
+  "description": "MobS is a simple and safe state management library transparently applying functional reactive programming (TFRP) and is inspired by [MobX](https://mobx.js.org/).",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
