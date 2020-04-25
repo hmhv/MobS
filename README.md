@@ -1,6 +1,6 @@
 # MobS
 
-Simple, safe state management
+Simple, safe state management for swift
 
 [![Platforms](https://img.shields.io/badge/platforms-iOS-lightgrey.svg)](https://github.com/hmhv/MobS)
 [![Cocoapods](https://img.shields.io/cocoapods/v/MobS.svg)](https://cocoapods.org/pods/MobS)

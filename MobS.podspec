@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name = 'MobS'
   s.version = '0.0.1'
-  s.summary = 'MobS is a reactive library inspired by MobX written in Swift.'
-  s.description = 'MobS is a reactive library inspired by MobX written in Swift.'
+  s.summary = 'Simple, safe state management for swift'
+  s.description = 'MobS is a simple and safe state management library transparently applying functional reactive programming (TFRP) and is inspired by [MobX](https://mobx.js.org/).'
   s.license = { type: 'MIT', file: 'LICENSE' }
   s.homepage = 'https://github.com/hmhv/MobS'
   s.social_media_url = 'https://hmhv.info'
