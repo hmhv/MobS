@@ -19,9 +19,7 @@ class CountUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        $count.addUpdater(with: self) { (vc, count) in
-            vc.countLabel.text = "\(count)"
-        }
+        $count.bind(to: countLabel, keyPath: \.text) { "\($0)" }
     }
     
     @IBAction func buttonTapped(_ sender: Any) {
