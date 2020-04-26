@@ -9,14 +9,14 @@ import Foundation
 
 public final class MobS {
 
-    private(set) static var activeUpdaters: [Updater] = []
+    private(set) static var activeObservers: [Observer] = []
     private(set) static var batchUpdater: BatchUpdater?
 
-    public static func addUpdater(action: @escaping () -> Void) -> Removable {
+    public static func addObserver(action: @escaping () -> Void) -> Removable {
         runOnMainThread {
-            MobS.activeUpdaters.append(Updater(action: action))
+            MobS.activeObservers.append(Observer(action: action))
             action()
-            return MobS.activeUpdaters.removeLast()
+            return MobS.activeObservers.removeLast()
         }
     }
 
@@ -39,20 +39,20 @@ extension MobS {
 
     public static var isTraceEnabled = false {
         didSet {
-            numberOfUpdater = 0
+            numberOfObserver = 0
             numberOfState = 0
             numberOfNotifier = 0
         }
     }
 
-    static var numberOfUpdater = 0 {
-        didSet { debugPrint("Updater = \(numberOfUpdater), State = \(numberOfState), Notifier = \(numberOfNotifier)") }
+    static var numberOfObserver = 0 {
+        didSet { debugPrint("Observer (\(numberOfObserver)), State (\(numberOfState)), Notifier (\(numberOfNotifier))") }
     }
     static var numberOfState = 0 {
-        didSet { debugPrint("Updater = \(numberOfUpdater), State = \(numberOfState), Notifier = \(numberOfNotifier)") }
+        didSet { debugPrint("Observer (\(numberOfObserver)), State (\(numberOfState)), Notifier (\(numberOfNotifier))") }
     }
     static var numberOfNotifier = 0 {
-        didSet { debugPrint("Updater = \(numberOfUpdater), State = \(numberOfState), Notifier = \(numberOfNotifier)") }
+        didSet { debugPrint("Observer (\(numberOfObserver)), State (\(numberOfState)), Notifier (\(numberOfNotifier))") }
     }
 
 }

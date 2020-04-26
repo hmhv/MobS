@@ -37,8 +37,8 @@ extension RemoverOwner {
 
 extension RemoverOwner {
 
-    public func addUpdater(action: @escaping (Self) -> Void) {
-        MobS.addUpdater { [weak self] in
+    public func addObserver(action: @escaping (Self) -> Void) {
+        MobS.addObserver { [weak self] in
             guard let self = self else { return }
             action(self)
         }.removed(by: remover)

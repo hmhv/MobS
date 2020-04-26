@@ -10,7 +10,7 @@ import Foundation
 final class Notifier {
 
     private lazy var id = Unmanaged.passUnretained(self).toOpaque().hashValue
-    private(set) var updaters = Set<Updater>()
+    private(set) var observers = Set<Observer>()
 
     init() {
         if MobS.isTraceEnabled {
@@ -24,16 +24,16 @@ final class Notifier {
         }
     }
 
-    func add(updater: Updater) {
-        updaters.insert(updater)
+    func add(observer: Observer) {
+        observers.insert(observer)
     }
 
-    func remove(updater: Updater) {
-        updaters.remove(updater)
+    func remove(observer: Observer) {
+        observers.remove(observer)
     }
 
     func callAsFunction() {
-        updaters.forEach { $0() }
+        observers.forEach { $0() }
     }
 
 }
@@ -42,8 +42,8 @@ extension Notifier: Removable {
 
     func remove() {
         runOnMainThread {
-            updaters.forEach { $0.remove(notifier: self) }
-            updaters.removeAll()
+            observers.forEach { $0.remove(notifier: self) }
+            observers.removeAll()
         }
     }
 

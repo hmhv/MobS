@@ -32,9 +32,9 @@ extension MobS {
         public var wrappedValue: T {
             get {
                 runOnMainThread {
-                    if let activeUpdater = MobS.activeUpdaters.last {
+                    if let activeUpdater = MobS.activeObservers.last {
                         activeUpdater.add(notifier: notifier)
-                        notifier.add(updater: activeUpdater)
+                        notifier.add(observer: activeUpdater)
                     }
                     return state
                 }
@@ -43,7 +43,7 @@ extension MobS {
                 runOnMainThread {
                     state = newValue
                     if let batchUpdater = MobS.batchUpdater {
-                        batchUpdater.add(updater: notifier.updaters)
+                        batchUpdater.add(updater: notifier.observers)
                     } else {
                         notifier()
                     }
@@ -55,22 +55,22 @@ extension MobS {
             self
         }
 
-        public func addUpdater<O: RemoverOwner>(with owner: O, action: @escaping (O, T) -> Void) {
-            MobS.addUpdater { [weak owner, weak self] in
+        public func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O, T) -> Void) {
+            MobS.addObserver { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 action(owner, self.wrappedValue)
             }.removed(by: owner.remover)
         }
 
         public func bind<O: RemoverOwner>(to owner: O, keyPath: ReferenceWritableKeyPath<O, T>) {
-            MobS.addUpdater { [weak owner, weak self] in
+            MobS.addObserver { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 owner[keyPath: keyPath] = self.wrappedValue
             }.removed(by: owner.remover)
         }
 
         public func bind<O: RemoverOwner, R>(to owner: O, keyPath: ReferenceWritableKeyPath<O, R>, transform: @escaping (T) -> R) {
-            MobS.addUpdater { [weak owner, weak self] in
+            MobS.addObserver { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 owner[keyPath: keyPath] = transform(self.wrappedValue)
             }.removed(by: owner.remover)

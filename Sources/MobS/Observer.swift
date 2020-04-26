@@ -1,5 +1,5 @@
 //
-//  Updater.swift
+//  Observer.swift
 //  MobS
 //
 //  Created by MYUNGHOON HONG on 2020/04/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Updater {
+final class Observer {
 
     private lazy var id = Unmanaged.passUnretained(self).toOpaque().hashValue
     private let action: () -> Void
@@ -16,13 +16,13 @@ final class Updater {
     init(action: @escaping () -> Void) {
         self.action = action
         if MobS.isTraceEnabled {
-            MobS.numberOfUpdater += 1
+            MobS.numberOfObserver += 1
         }
     }
 
     deinit {
         if MobS.isTraceEnabled {
-            MobS.numberOfUpdater -= 1
+            MobS.numberOfObserver -= 1
         }
     }
 
@@ -40,20 +40,20 @@ final class Updater {
 
 }
 
-extension Updater: Removable {
+extension Observer: Removable {
 
     func remove() {
         runOnMainThread {
-            notifiers.forEach { $0.remove(updater: self) }
+            notifiers.forEach { $0.remove(observer: self) }
             notifiers.removeAll()
         }
     }
 
 }
 
-extension Updater: Hashable {
+extension Observer: Hashable {
 
-    static func == (lhs: Updater, rhs: Updater) -> Bool {
+    static func == (lhs: Observer, rhs: Observer) -> Bool {
         lhs.id == rhs.id
     }
 

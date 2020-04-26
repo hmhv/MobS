@@ -22,7 +22,7 @@ class TodoListViewController: UITableViewController {
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTodo))
         navigationItem.rightBarButtonItems = [addItem, filterItem]
 
-        viewModel.$todoCellModels.addUpdater(with: self) { (vc, todos) in
+        viewModel.$todoCellModels.addObserver(with: self) { (vc, todos) in
             vc.navigationItem.title = "Todo List :: \(vc.viewModel.todoFilterType)"
             vc.tableView.reloadData()
         }

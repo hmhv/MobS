@@ -9,9 +9,9 @@ import Foundation
 
 final class BatchUpdater {
 
-    private var pendingUpdaters = Set<Updater>()
+    private var pendingUpdaters = Set<Observer>()
 
-    func add(updater: Set<Updater>) {
+    func add(updater: Set<Observer>) {
         pendingUpdaters = pendingUpdaters.union(updater)
     }
 
