@@ -15,15 +15,18 @@ class TodoListViewController: UITableViewController {
     override func viewDidLoad() {
         super .viewDidLoad()
         setupUI()
+        setupViewModel()
     }
 
     private func setupUI() {
         let filterItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(changeFilter))
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTodo))
         navigationItem.rightBarButtonItems = [addItem, filterItem]
+    }
 
+    private func setupViewModel() {
+        viewModel.$title.bind(to: navigationItem, keyPath: \.title) { $0 }
         viewModel.$todoCellModels.addObserver(with: self) { (vc, todos) in
-            vc.navigationItem.title = "Todo List :: \(vc.viewModel.todoFilterType)"
             vc.tableView.reloadData()
         }
     }

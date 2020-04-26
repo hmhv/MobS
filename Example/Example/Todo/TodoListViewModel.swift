@@ -12,7 +12,10 @@ import MobS
 class TodoListViewModel {
 
     @MobS.Observable(value: [])
-    var todoCellModels: [TodoCellModel]
+    private(set) var todoCellModels: [TodoCellModel]
+
+    @MobS.Observable(value: TodoFilterType.all.listViewTitle)
+    private(set) var title: String
 
     private var allTodoCellModels: [TodoCellModel] = [] {
         didSet {
@@ -23,6 +26,7 @@ class TodoListViewModel {
     var todoFilterType: TodoFilterType = .all {
         didSet {
             todoCellModels = allTodoCellModels.filter(todoFilterType.todoFilter)
+            title = todoFilterType.listViewTitle
         }
     }
     
@@ -60,7 +64,7 @@ class TodoCellModel {
 }
 
 
-enum TodoFilterType: CustomStringConvertible {
+enum TodoFilterType {
 
     typealias Filter = (TodoCellModel) -> Bool
 
@@ -79,14 +83,14 @@ enum TodoFilterType: CustomStringConvertible {
         }
     }
 
-    var description: String {
+    var listViewTitle: String {
         switch self {
         case .all:
-            return "All"
+            return "Todo List :: All"
         case .wip:
-            return "WIP"
+            return "Todo List :: WIP"
         case .done:
-            return "Done"
+            return "Todo List :: Done"
         }
     }
 
