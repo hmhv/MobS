@@ -5,7 +5,7 @@ Simple, safe state management for swift
 [![Platforms](https://img.shields.io/badge/platforms-iOS-lightgrey.svg)](https://github.com/hmhv/MobS)
 [![Cocoapods](https://img.shields.io/cocoapods/v/MobS.svg)](https://cocoapods.org/pods/MobS)
 [![SPM compatible](https://img.shields.io/badge/SPM-Compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager/)
-[![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg)](https://swift.org)
+[![Swift](https://img.shields.io/badge/Swift-5.2-orange.svg)](https://swift.org)
 [![MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
 
 ## Introduction
@@ -15,7 +15,7 @@ MobS is a simple and safe state management library transparently applying functi
 ## Requirements
 
 - iOS 10.0+
-- Swift 5.0+
+- Swift 5.2+
 
 ## Installation
 
