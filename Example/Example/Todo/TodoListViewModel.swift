@@ -11,7 +11,7 @@ import MobS
 
 class TodoListViewModel {
 
-    @MobS.State(initialState: [])
+    @MobS.Observable(value: [])
     var todoCellModels: [TodoCellModel]
 
     private var allTodoCellModels: [TodoCellModel] = [] {
@@ -46,11 +46,11 @@ class TodoListViewModel {
 
 class TodoCellModel {
 
-    @MobS.State
+    @MobS.Observable
     var todo: Todo
 
     init(todo: Todo) {
-        _todo = MobS.State(initialState: todo)
+        _todo = MobS.Observable(value: todo)
     }
 
     func toggle() {

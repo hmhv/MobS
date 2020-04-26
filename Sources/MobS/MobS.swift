@@ -40,19 +40,19 @@ extension MobS {
     public static var isTraceEnabled = false {
         didSet {
             numberOfObserver = 0
-            numberOfState = 0
+            numberOfObservable = 0
             numberOfNotifier = 0
         }
     }
 
     static var numberOfObserver = 0 {
-        didSet { debugPrint("Observer (\(numberOfObserver)), State (\(numberOfState)), Notifier (\(numberOfNotifier))") }
+        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable)), Notifier (\(numberOfNotifier))") }
     }
-    static var numberOfState = 0 {
-        didSet { debugPrint("Observer (\(numberOfObserver)), State (\(numberOfState)), Notifier (\(numberOfNotifier))") }
+    static var numberOfObservable = 0 {
+        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable)), Notifier (\(numberOfNotifier))") }
     }
     static var numberOfNotifier = 0 {
-        didSet { debugPrint("Observer (\(numberOfObserver)), State (\(numberOfState)), Notifier (\(numberOfNotifier))") }
+        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable)), Notifier (\(numberOfNotifier))") }
     }
 
 }

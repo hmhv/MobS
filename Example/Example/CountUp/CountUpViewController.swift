@@ -11,7 +11,7 @@ import MobS
 
 class CountUpViewController: UIViewController {
 
-    @MobS.State(initialState: 0)
+    @MobS.Observable(value: 0)
     var count: Int
 
     @IBOutlet weak var countLabel: UILabel!

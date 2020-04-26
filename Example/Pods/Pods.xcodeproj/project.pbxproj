@@ -11,7 +11,7 @@
 		122DF989E821AB46126572E262E45E90 /* MobS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2521FC6F6B5C4A7C300F75795F958DAB /* MobS.swift */; };
 		269FDF49AAB78B11F54859CB0265B194 /* Pods-Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D6D7C498FA339E02BD53ECB8916CEA8E /* Pods-Example-dummy.m */; };
 		40FD8BD5575473B35407B8ED8E94E7B6 /* MobS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A76B20E3FF09236A1F6D9296148FC9 /* MobS-dummy.m */; };
-		474644B64D169C1DEA1A72D5C0D225B2 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5B0FA50D526D421C67F3D571B878A /* State.swift */; };
+		474644B64D169C1DEA1A72D5C0D225B2 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5B0FA50D526D421C67F3D571B878A /* Observable.swift */; };
 		4C8F5BAE0AEDD2FEE04CE89CDC8516A7 /* MobS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DD9E04FB6F99D088CDACED99CCECE817 /* MobS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51E1FA4C2218618F3D90E57F8659B97F /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970A69D3F67128F719A23A454536CDBC /* Observer.swift */; };
 		72D7ACA667CF02230E9EDF275EE6CC37 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
@@ -48,12 +48,12 @@
 /* Begin PBXFileReference section */
 		0A1E50C1EC1D06825527319C03C30114 /* MobS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = MobS.modulemap; sourceTree = "<group>"; };
 		0A51B5161961AE0EAAEDF3500055EA5A /* MobS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MobS-prefix.pch"; sourceTree = "<group>"; };
-		1F667CC0E19EAF34E5A4119E2121F585 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Example.framework; path = "Pods-Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F667CC0E19EAF34E5A4119E2121F585 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8D53B4D6269CC07708979FD21C3275 /* SoftUIView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SoftUIView-umbrella.h"; sourceTree = "<group>"; };
 		243410B9535472556EA4BB6DBC133A0D /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		2521FC6F6B5C4A7C300F75795F958DAB /* MobS.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MobS.swift; path = Sources/MobS/MobS.swift; sourceTree = "<group>"; };
 		312B988EF117AE4DE76A268D970131FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		31B5B0FA50D526D421C67F3D571B878A /* State.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = State.swift; path = Sources/MobS/State.swift; sourceTree = "<group>"; };
+		31B5B0FA50D526D421C67F3D571B878A /* Observable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Observable.swift; path = Sources/MobS/Observable.swift; sourceTree = "<group>"; };
 		31C1D37707DFAA5E6A164BCC07834264 /* Pods-Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Example-Info.plist"; sourceTree = "<group>"; };
 		34D75D261D6A1D97464B2DC090B23EC7 /* RemoverOwner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RemoverOwner.swift; path = Sources/MobS/RemoverOwner.swift; sourceTree = "<group>"; };
 		35C305D3797C284E6F5BAA1D3E6F9BF8 /* Pods-Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Example.modulemap"; sourceTree = "<group>"; };
@@ -62,24 +62,24 @@
 		441854E35F81731E63E53DC7E4EEAD9D /* Pods-Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		62AD0C9325007E69686EB0597385D761 /* MobS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "MobS-Info.plist"; sourceTree = "<group>"; };
 		73534F7F94667DF31AAB79FBCBA6CF76 /* SoftUIView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SoftUIView.modulemap; sourceTree = "<group>"; };
-		763A37191F7E9BCF680E162D330FCDE8 /* SoftUIView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SoftUIView.framework; path = SoftUIView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		77DC0295BF7E5B61129AC22AAC3DC012 /* MobS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MobS.framework; path = MobS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		763A37191F7E9BCF680E162D330FCDE8 /* SoftUIView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SoftUIView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77DC0295BF7E5B61129AC22AAC3DC012 /* MobS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MobS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7825A90E082A1582EB16256B0E722B3F /* Pods-Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Example-umbrella.h"; sourceTree = "<group>"; };
 		7C6202D2D569E07DA2CA245A7CB93CA0 /* SoftUIView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SoftUIView.xcconfig; sourceTree = "<group>"; };
 		800A9DC9270508E1C7FBF1965070EAE5 /* Remover.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Remover.swift; path = Sources/MobS/Remover.swift; sourceTree = "<group>"; };
 		8383C2BA0EE3D1488F56F71847FCEEFD /* BatchRunner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BatchRunner.swift; path = Sources/MobS/BatchRunner.swift; sourceTree = "<group>"; };
-		8A27B14EBB19CC510EFC3EE5B003ABF9 /* MobS.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = MobS.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		8E65CED17244A7DE964E884DC9ABC104 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		8A27B14EBB19CC510EFC3EE5B003ABF9 /* MobS.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = MobS.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		8E65CED17244A7DE964E884DC9ABC104 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		9502105CB2E539295412E0890E98632A /* SoftUIView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SoftUIView-dummy.m"; sourceTree = "<group>"; };
 		970A69D3F67128F719A23A454536CDBC /* Observer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Observer.swift; path = Sources/MobS/Observer.swift; sourceTree = "<group>"; };
 		98D0CF9207BCFFEFCF0066060E274E20 /* MobS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MobS.xcconfig; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A38A5F235825907F09F98A34799DC07A /* SoftUIView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SoftUIView-Info.plist"; sourceTree = "<group>"; };
 		AAC3FBC8627EA0D4AF4E98D1B6D5EF38 /* Removable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Removable.swift; path = Sources/MobS/Removable.swift; sourceTree = "<group>"; };
 		AFECBC24E09D0D25F822C27BD944AFD4 /* Pods-Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Example-frameworks.sh"; sourceTree = "<group>"; };
 		B45138496B85A072654D1D0F8EBBEDE5 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		B490CB3B1395E60E818317F34579B6D5 /* SoftUIView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SoftUIView-prefix.pch"; sourceTree = "<group>"; };
-		B8FC0FEBC0647EF54DA220012E3B04C3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		B8FC0FEBC0647EF54DA220012E3B04C3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C2A76B20E3FF09236A1F6D9296148FC9 /* MobS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MobS-dummy.m"; sourceTree = "<group>"; };
 		D490D60B4C1BAADEB8292683A1F578E9 /* Notifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifier.swift; path = Sources/MobS/Notifier.swift; sourceTree = "<group>"; };
 		D6D7C498FA339E02BD53ECB8916CEA8E /* Pods-Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Example-dummy.m"; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 				AAC3FBC8627EA0D4AF4E98D1B6D5EF38 /* Removable.swift */,
 				800A9DC9270508E1C7FBF1965070EAE5 /* Remover.swift */,
 				34D75D261D6A1D97464B2DC090B23EC7 /* RemoverOwner.swift */,
-				31B5B0FA50D526D421C67F3D571B878A /* State.swift */,
+				31B5B0FA50D526D421C67F3D571B878A /* Observable.swift */,
 				2AC47B17F7BF4F7130F5CB99BCB478E4 /* Pod */,
 				299F067782F755D1F3F0E1AA0A551BD6 /* Support Files */,
 			);
@@ -172,7 +172,6 @@
 				42A98EA2A1BE08090324688BE1FB0BF4 /* SoftUIView.swift */,
 				DDBB05084645BF4C2B611AD36FC29BAB /* Support Files */,
 			);
-			name = SoftUIView;
 			path = SoftUIView;
 			sourceTree = "<group>";
 		};
@@ -431,7 +430,7 @@
 				7442B6D1A6BC95D0FF6A2D72F1CCAC75 /* Removable.swift in Sources */,
 				DC4B65FB59E336C1463E384FB513A9E3 /* Remover.swift in Sources */,
 				E8FBD6BD71E085B331560602EFCB88C4 /* RemoverOwner.swift in Sources */,
-				474644B64D169C1DEA1A72D5C0D225B2 /* State.swift in Sources */,
+				474644B64D169C1DEA1A72D5C0D225B2 /* Observable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

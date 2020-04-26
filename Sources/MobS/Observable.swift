@@ -10,22 +10,22 @@ import Foundation
 extension MobS {
 
     @propertyWrapper
-    public final class State<T> {
+    public final class Observable<T> {
 
-        private var state: T
+        private var value: T
         private var notifier = Notifier()
 
-        public init(initialState: T) {
-            self.state = initialState
+        public init(value: T) {
+            self.value = value
             if MobS.isTraceEnabled {
-                MobS.numberOfState += 1
+                MobS.numberOfObservable += 1
             }
         }
 
         deinit {
             notifier.remove()
             if MobS.isTraceEnabled {
-                MobS.numberOfState -= 1
+                MobS.numberOfObservable -= 1
             }
         }
 
@@ -36,12 +36,12 @@ extension MobS {
                         activeObserver.add(notifier: notifier)
                         notifier.add(observer: activeObserver)
                     }
-                    return state
+                    return value
                 }
             }
             set {
                 runOnMainThread {
-                    state = newValue
+                    value = newValue
                     if let batchRunner = MobS.batchRunner {
                         batchRunner.add(observer: notifier.observers)
                     } else {
@@ -51,7 +51,7 @@ extension MobS {
             }
         }
 
-        public var projectedValue: State<T> {
+        public var projectedValue: Observable<T> {
             self
         }
 
@@ -80,9 +80,9 @@ extension MobS {
 
 }
 
-extension MobS.State: Hashable {
+extension MobS.Observable: Hashable {
 
-    public static func == (lhs: MobS.State<T>, rhs: MobS.State<T>) -> Bool {
+    public static func == (lhs: MobS.Observable<T>, rhs: MobS.Observable<T>) -> Bool {
         lhs.notifier == rhs.notifier
     }
 
