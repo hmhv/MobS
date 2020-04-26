@@ -10,7 +10,7 @@ import Foundation
 public final class MobS {
 
     private(set) static var activeObservers: [Observer] = []
-    private(set) static var batchUpdater: BatchUpdater?
+    private(set) static var batchRunner: BatchRunner?
 
     public static func addObserver(action: @escaping () -> Void) -> Removable {
         runOnMainThread {
@@ -22,11 +22,11 @@ public final class MobS {
 
     public static func updateState(action: () -> Void) {
         runOnMainThread {
-            if MobS.batchUpdater == nil {
-                MobS.batchUpdater = BatchUpdater()
+            if MobS.batchRunner == nil {
+                MobS.batchRunner = BatchRunner()
                 action()
-                MobS.batchUpdater?()
-                MobS.batchUpdater = nil
+                MobS.batchRunner?()
+                MobS.batchRunner = nil
             } else {
                 action()
             }

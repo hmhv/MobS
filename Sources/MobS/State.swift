@@ -32,9 +32,9 @@ extension MobS {
         public var wrappedValue: T {
             get {
                 runOnMainThread {
-                    if let activeUpdater = MobS.activeObservers.last {
-                        activeUpdater.add(notifier: notifier)
-                        notifier.add(observer: activeUpdater)
+                    if let activeObserver = MobS.activeObservers.last {
+                        activeObserver.add(notifier: notifier)
+                        notifier.add(observer: activeObserver)
                     }
                     return state
                 }
@@ -42,8 +42,8 @@ extension MobS {
             set {
                 runOnMainThread {
                     state = newValue
-                    if let batchUpdater = MobS.batchUpdater {
-                        batchUpdater.add(updater: notifier.observers)
+                    if let batchRunner = MobS.batchRunner {
+                        batchRunner.add(observer: notifier.observers)
                     } else {
                         notifier()
                     }
