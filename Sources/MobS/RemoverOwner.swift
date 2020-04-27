@@ -7,9 +7,9 @@
 
 import Foundation
 
-fileprivate var removerContext: UInt8 = 0
+private var removerContext = 0
 
-public protocol RemoverOwner: AnyObject {
+public protocol RemoverOwner: AssociatedObjectOwner {
     var remover: MobS.Remover { get set }
 }
 
@@ -18,17 +18,12 @@ extension RemoverOwner {
     public var remover: MobS.Remover {
         get {
             runOnMainThread {
-                if let remover = objc_getAssociatedObject(self, &removerContext) as? MobS.Remover {
-                    return remover
-                }
-                let remover = MobS.Remover()
-                objc_setAssociatedObject(self, &removerContext, remover, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-                return remover
+                getAssociatedObject(key: &removerContext, initialObject: MobS.Remover())
             }
         }
         set {
             runOnMainThread {
-                objc_setAssociatedObject(self, &removerContext, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                setAssociatedObject(key: &removerContext, object: newValue)
             }
         }
     }
