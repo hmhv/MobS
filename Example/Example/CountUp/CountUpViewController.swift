@@ -19,11 +19,9 @@ class CountUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        $count.bind(to: countLabel, keyPath: \.text) { "\($0)" }
-
-//        $count.addObserver(with: countLabel) { (label, count) in
-//            label.text = "\(count)"
-//        }
+        $count.addObserver(with: countLabel) { (label, count) in
+            label.text = "\(count)"
+        }
 
 //        addObserver { vc in
 //            vc.countLabel.text = "\(vc.count)"
