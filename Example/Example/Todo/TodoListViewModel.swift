@@ -25,8 +25,10 @@ class TodoListViewModel {
 
     var todoFilterType: TodoFilterType = .all {
         didSet {
-            todoCellModels = allTodoCellModels.filter(todoFilterType.todoFilter)
-            title = todoFilterType.listViewTitle
+            MobS.updateState {
+                todoCellModels = allTodoCellModels.filter(todoFilterType.todoFilter)
+                title = todoFilterType.listViewTitle
+            }
         }
     }
     

@@ -25,9 +25,9 @@ class TodoListViewController: UITableViewController {
     }
 
     private func setupViewModel() {
-        viewModel.$title.bind(to: navigationItem, keyPath: \.title) { $0 }
-        viewModel.$todoCellModels.addObserver(with: self) { (vc, todos) in
-            vc.tableView.reloadData()
+        addObserver { vc in
+            vc.navigationItem.title = vc.viewModel.title
+            vc.updateTableView(with: vc.viewModel.todoCellModels)
         }
     }
 
@@ -49,6 +49,10 @@ class TodoListViewController: UITableViewController {
 }
 
 extension TodoListViewController {
+
+    func updateTableView(with cellModels: [TodoCellModel]) {
+        tableView.reloadData()
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.todoCellModels.count

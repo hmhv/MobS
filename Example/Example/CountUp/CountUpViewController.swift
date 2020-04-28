@@ -19,13 +19,9 @@ class CountUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        $count.addObserver(with: countLabel) { (label, count) in
-            label.text = "\(count)"
+        addObserver { vc in
+            vc.countLabel.text = "\(vc.count)"
         }
-
-//        addObserver { vc in
-//            vc.countLabel.text = "\(vc.count)"
-//        }
 
 //        MobS.addObserver { [weak self] in
 //            guard let self = self else { return }

@@ -17,9 +17,8 @@ class TodoCell: UITableViewCell {
     var cellModel: TodoCellModel? {
         didSet {
             remover.removeAll()
-
-            if let cellModel = cellModel {
-                cellModel.$todo.addObserver(with: self) { (cell, todo) in
+            if let todo = cellModel?.todo {
+                addObserver { cell in
                     cell.todoLabel.text = todo.title
                     cell.todoSwitch.isOn = todo.done
                 }
