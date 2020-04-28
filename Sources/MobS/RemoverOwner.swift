@@ -9,7 +9,7 @@ import Foundation
 
 private var removerContext = 0
 
-public protocol RemoverOwner: AssociatedObjectOwner {
+public protocol RemoverOwner: AnyObject {
     var remover: MobS.Remover { get set }
 }
 
@@ -26,6 +26,19 @@ extension RemoverOwner {
                 setAssociatedObject(key: &removerContext, object: newValue)
             }
         }
+    }
+
+    func getAssociatedObject<T>(key: UnsafeRawPointer, initialObject: @autoclosure () -> T) -> T {
+        if let object = objc_getAssociatedObject(self, key) as? T {
+            return object
+        }
+        let object = initialObject()
+        objc_setAssociatedObject(self, key, object, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return object
+    }
+
+    func setAssociatedObject<T>(key: UnsafeRawPointer, object: T?) {
+        objc_setAssociatedObject(self, key, object, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
 }
