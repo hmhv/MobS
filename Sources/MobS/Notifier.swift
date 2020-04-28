@@ -12,15 +12,10 @@ final class Notifier {
     private lazy var id = Unmanaged.passUnretained(self).toOpaque().hashValue
     private(set) var observers = Set<Observer>()
 
-    init() {
-        if MobS.isTraceEnabled {
-            MobS.numberOfNotifier += 1
-        }
-    }
-
     deinit {
-        if MobS.isTraceEnabled {
-            MobS.numberOfNotifier -= 1
+        runOnMainThread {
+            observers.forEach { $0.remove(notifier: self) }
+            observers.removeAll()
         }
     }
 
@@ -34,17 +29,6 @@ final class Notifier {
 
     func callAsFunction() {
         observers.forEach { $0() }
-    }
-
-}
-
-extension Notifier: Removable {
-
-    func remove() {
-        runOnMainThread {
-            observers.forEach { $0.remove(notifier: self) }
-            observers.removeAll()
-        }
     }
 
 }

@@ -16,13 +16,18 @@ final class Observer {
     init(action: @escaping () -> Void) {
         self.action = action
         if MobS.isTraceEnabled {
-            MobS.numberOfObserver += 1
+            runOnMainThread {
+                MobS.numberOfObserver += 1
+            }
         }
     }
 
     deinit {
+        remove()
         if MobS.isTraceEnabled {
-            MobS.numberOfObserver -= 1
+            runOnMainThread {
+                MobS.numberOfObserver -= 1
+            }
         }
     }
 

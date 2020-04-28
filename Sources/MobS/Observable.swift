@@ -18,14 +18,17 @@ extension MobS {
         public init(value: T) {
             self.value = value
             if MobS.isTraceEnabled {
-                MobS.numberOfObservable += 1
+                runOnMainThread {
+                    MobS.numberOfObservable += 1
+                }
             }
         }
 
         deinit {
-            notifier.remove()
             if MobS.isTraceEnabled {
-                MobS.numberOfObservable -= 1
+                runOnMainThread {
+                    MobS.numberOfObservable -= 1
+                }
             }
         }
 

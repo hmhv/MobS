@@ -11,12 +11,12 @@ final class BatchRunner {
 
     private var pendingObservers = Set<Observer>()
 
-    func add(observer: Set<Observer>) {
-        pendingObservers = pendingObservers.union(observer)
+    deinit {
+        pendingObservers.forEach { $0() }
     }
 
-    func callAsFunction() {
-        pendingObservers.forEach { $0() }
+    func add(observer: Set<Observer>) {
+        pendingObservers = pendingObservers.union(observer)
     }
 
 }

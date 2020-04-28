@@ -25,7 +25,6 @@ public final class MobS {
             if MobS.batchRunner == nil {
                 MobS.batchRunner = BatchRunner()
                 action()
-                MobS.batchRunner?()
                 MobS.batchRunner = nil
             } else {
                 action()
@@ -41,18 +40,14 @@ extension MobS {
         didSet {
             numberOfObserver = 0
             numberOfObservable = 0
-            numberOfNotifier = 0
         }
     }
 
     static var numberOfObserver = 0 {
-        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable)), Notifier (\(numberOfNotifier))") }
+        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable))") }
     }
     static var numberOfObservable = 0 {
-        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable)), Notifier (\(numberOfNotifier))") }
-    }
-    static var numberOfNotifier = 0 {
-        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable)), Notifier (\(numberOfNotifier))") }
+        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable))") }
     }
 
 }

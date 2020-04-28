@@ -11,6 +11,8 @@ extension MobS {
     
     public final class Remover {
 
+        private var removables: [Removable] = []
+
         deinit {
             removeAll()
         }
@@ -27,8 +29,6 @@ extension MobS {
                 removables.removeAll()
             }
         }
-
-        private var removables: [Removable] = []
 
     }
 
