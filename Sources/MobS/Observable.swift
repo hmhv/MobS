@@ -45,6 +45,9 @@ extension MobS {
             set {
                 runOnMainThread {
                     value = newValue
+                    if MobS.activeObservers.last != nil {
+                        fatalError("You can not change observable in observer's action")
+                    }
                     if let batchRunner = MobS.batchRunner {
                         batchRunner.add(observer: notifier.observers)
                     } else {
