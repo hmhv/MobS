@@ -11,6 +11,13 @@ import UIKit
 class TodoListViewController: UITableViewController {
 
     private let viewModel = TodoListViewModel()
+    private lazy var dataSource: UITableViewDiffableDataSource<TodoSection, TodoCellModel> = {
+        let dataSource = UITableViewDiffableDataSource<TodoSection, TodoCellModel>(tableView: tableView) { (tableView, indexPath, item) -> UITableViewCell? in
+            tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath)
+        }
+        dataSource.defaultRowAnimation = .fade
+        return dataSource
+    }()
 
     override func viewDidLoad() {
         super .viewDidLoad()
@@ -22,6 +29,8 @@ class TodoListViewController: UITableViewController {
         let filterItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(changeFilter))
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTodo))
         navigationItem.rightBarButtonItems = [addItem, filterItem]
+
+        tableView.dataSource = dataSource
     }
 
     private func setupViewModel() {
@@ -51,15 +60,10 @@ class TodoListViewController: UITableViewController {
 extension TodoListViewController {
 
     func updateTableView(with cellModels: [TodoCellModel]) {
-        tableView.reloadData()
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.todoCellModels.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
+        var snapshot = NSDiffableDataSourceSnapshot<TodoSection, TodoCellModel>()
+        snapshot.appendSections(TodoSection.allCases)
+        snapshot.appendItems(cellModels, toSection: .todo)
+        dataSource.apply(snapshot)
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

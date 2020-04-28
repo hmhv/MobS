@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Todo: Equatable {
+struct Todo: Hashable {
 
     let id: Int
     var title: String

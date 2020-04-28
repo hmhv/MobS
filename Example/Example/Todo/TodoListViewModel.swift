@@ -50,6 +50,10 @@ class TodoListViewModel {
     
 }
 
+enum TodoSection: CaseIterable {
+    case todo
+}
+
 class TodoCellModel {
 
     @MobS.Observable
@@ -65,6 +69,17 @@ class TodoCellModel {
 
 }
 
+extension TodoCellModel: Hashable {
+
+    static func == (lhs: TodoCellModel, rhs: TodoCellModel) -> Bool {
+        return lhs.todo.id == rhs.todo.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(todo.id)
+    }
+
+}
 
 enum TodoFilterType {
 
