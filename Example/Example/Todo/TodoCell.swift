@@ -17,10 +17,10 @@ class TodoCell: UITableViewCell {
     var cellModel: TodoCellModel? {
         didSet {
             remover.removeAll()
-            if let todo = cellModel?.todo {
+            if let cellModel = cellModel {
                 addObserver { cell in
-                    cell.todoLabel.text = todo.title
-                    cell.todoSwitch.isOn = todo.done
+                    cell.todoLabel.text = cellModel.todo.title
+                    cell.todoSwitch.isOn = cellModel.todo.done
                 }
             }
         }
