@@ -13,7 +13,7 @@ extension MobS {
     public final class Observable<T> {
 
         private var value: T
-        private var notifier = Notifier()
+        private lazy var notifier = Notifier()
 
         public init(value: T) {
             self.value = value
@@ -46,13 +46,9 @@ extension MobS {
                 runOnMainThread {
                     value = newValue
                     if MobS.activeObservers.last != nil {
-                        fatalError("You can not change observable in observer's action")
+                        fatalError("You can not change observable in observer's action. Use MobS.Computed instead.")
                     }
-                    if let batchRunner = MobS.batchRunner {
-                        batchRunner.add(observer: notifier.observers)
-                    } else {
-                        notifier()
-                    }
+                    notifier()
                 }
             }
         }
@@ -82,18 +78,6 @@ extension MobS {
             }.removed(by: owner.remover)
         }
 
-    }
-
-}
-
-extension MobS.Observable: Hashable {
-
-    public static func == (lhs: MobS.Observable<T>, rhs: MobS.Observable<T>) -> Bool {
-        lhs.notifier == rhs.notifier
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(notifier)
     }
 
 }

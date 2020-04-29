@@ -9,15 +9,8 @@ import Foundation
 
 public final class MobS {
 
-    private(set) static var activeObservers: [Observer] = []
-    private(set) static var batchRunner: BatchRunner?
-
     public static func addObserver(action: @escaping () -> Void) -> Removable {
-        runOnMainThread {
-            MobS.activeObservers.append(Observer(action: action))
-            action()
-            return MobS.activeObservers.removeLast()
-        }
+        addObserver(isForComputed: false, action: action)
     }
 
     public static func updateState(action: () -> Void) {
@@ -36,18 +29,40 @@ public final class MobS {
 
 extension MobS {
 
-    public static var isTraceEnabled = false {
-        didSet {
-            numberOfObserver = 0
-            numberOfObservable = 0
+    private(set) static var activeObservers: [Observer] = []
+    static var batchRunner: BatchRunner?
+
+    static func addObserver(isForComputed: Bool, action: @escaping () -> Void) -> Observer {
+        runOnMainThread {
+            MobS.activeObservers.append(Observer(action: action, isForComputed: isForComputed))
+            action()
+            return MobS.activeObservers.removeLast()
         }
     }
 
-    static var numberOfObserver = 0 {
-        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable))") }
+}
+
+extension MobS {
+
+    public static var isTraceEnabled = false {
+        didSet {
+            numberOfObservable = 0
+            numberOfComputed = 0
+            numberOfObserver = 0
+        }
     }
+
     static var numberOfObservable = 0 {
-        didSet { debugPrint("Observer (\(numberOfObserver)), Observable (\(numberOfObservable))") }
+        didSet { printTraceInfo() }
+    }
+    static var numberOfComputed = 0 {
+        didSet { printTraceInfo() }
+    }
+    static var numberOfObserver = 0 {
+        didSet { printTraceInfo() }
+    }
+    static func printTraceInfo() {
+        debugPrint("Observable (\(numberOfObservable)), Computed (\(numberOfComputed)), Observer (\(numberOfObserver))")
     }
 
 }
