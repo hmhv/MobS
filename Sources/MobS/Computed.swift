@@ -50,6 +50,27 @@ extension MobS {
             }
         }
 
+        public func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O, T) -> Void) {
+            MobS.addObserver { [weak owner, weak self] in
+                guard let owner = owner, let self = self else { return }
+                action(owner, self.result)
+            }.removed(by: owner.remover)
+        }
+
+        public func bind<O: RemoverOwner>(to owner: O, keyPath: ReferenceWritableKeyPath<O, T>) {
+            MobS.addObserver { [weak owner, weak self] in
+                guard let owner = owner, let self = self else { return }
+                owner[keyPath: keyPath] = self.result
+            }.removed(by: owner.remover)
+        }
+
+        public func bind<O: RemoverOwner, R>(to owner: O, keyPath: ReferenceWritableKeyPath<O, R>, transform: @escaping (T) -> R) {
+            MobS.addObserver { [weak owner, weak self] in
+                guard let owner = owner, let self = self else { return }
+                owner[keyPath: keyPath] = transform(self.result)
+            }.removed(by: owner.remover)
+        }
+
     }
 
 }
