@@ -7,63 +7,60 @@
 
 import Foundation
 
-final class Observer {
+extension MobS {
 
-    private lazy var id = Unmanaged.passUnretained(self).toOpaque().hashValue
-    private let action: () -> Void
-    private var notifiers = Set<Notifier>()
+    final class Observer: HashableClass {
 
-    init(action: @escaping () -> Void) {
-        self.action = action
-        if MobS.isTraceEnabled {
-            runOnMainThread {
-                MobS.numberOfObserver += 1
+        let isForComputed: Bool
+
+        private let action: () -> Void
+        private var notifiers = Set<Notifier>()
+
+        init(action: @escaping () -> Void, isForComputed: Bool) {
+            self.action = action
+            self.isForComputed = isForComputed
+
+            super.init()
+
+            if MobS.isTraceEnabled {
+                runOnMainThread {
+                    MobS.numberOfObserver += 1
+                }
             }
         }
-    }
 
-    deinit {
-        remove()
-        if MobS.isTraceEnabled {
-            runOnMainThread {
-                MobS.numberOfObserver -= 1
+        deinit {
+            remove()
+            if MobS.isTraceEnabled {
+                runOnMainThread {
+                    MobS.numberOfObserver -= 1
+                }
             }
         }
-    }
 
-    func add(notifier: Notifier) {
-        notifiers.insert(notifier)
-    }
+        func add(notifier: Notifier) {
+            notifiers.insert(notifier)
+        }
 
-    func remove(notifier: Notifier) {
-        notifiers.remove(notifier)
-    }
+        func remove(notifier: Notifier) {
+            notifiers.remove(notifier)
+        }
 
-    func callAsFunction() {
-        action()
+        func callAsFunction() {
+            action()
+        }
+
     }
 
 }
 
-extension Observer: Removable {
+extension MobS.Observer: Removable {
 
     func remove() {
         runOnMainThread {
             notifiers.forEach { $0.remove(observer: self) }
             notifiers.removeAll()
         }
-    }
-
-}
-
-extension Observer: Hashable {
-
-    static func == (lhs: Observer, rhs: Observer) -> Bool {
-        lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
 
 }

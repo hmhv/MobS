@@ -7,40 +7,51 @@
 
 import Foundation
 
-final class Notifier {
+extension MobS {
 
-    private lazy var id = Unmanaged.passUnretained(self).toOpaque().hashValue
-    private(set) var observers = Set<Observer>()
+    class Notifier: HashableClass {
 
-    deinit {
-        runOnMainThread {
-            observers.forEach { $0.remove(notifier: self) }
-            observers.removeAll()
+        private(set) var observersForObservable = Set<Observer>()
+        private(set) var observersForComputed = Set<Observer>()
+
+        deinit {
+            runOnMainThread {
+                observersForObservable.forEach { $0.remove(notifier: self) }
+                observersForComputed.forEach { $0.remove(notifier: self) }
+                observersForObservable.removeAll()
+                observersForComputed.removeAll()
+            }
         }
-    }
 
-    func add(observer: Observer) {
-        observers.insert(observer)
-    }
+        func add(observer: Observer) {
+            if observer.isForComputed {
+                observersForComputed.insert(observer)
+            } else {
+                observersForObservable.insert(observer)
+            }
+        }
 
-    func remove(observer: Observer) {
-        observers.remove(observer)
-    }
+        func remove(observer: Observer) {
+            if observer.isForComputed {
+                observersForComputed.remove(observer)
+            } else {
+                observersForObservable.remove(observer)
+            }
+        }
 
-    func callAsFunction() {
-        observers.forEach { $0() }
-    }
+        func callAsFunction() {
+            if let batchRunner = MobS.batchRunner {
+                batchRunner.add(observersForObservable: observersForObservable)
+                observersForComputed.forEach { $0() }
+            } else {
+                MobS.batchRunner = BatchRunner()
+                MobS.batchRunner?.add(observersForObservable: observersForObservable)
+                observersForComputed.forEach { $0() }
+                MobS.batchRunner = nil
+            }
 
-}
+        }
 
-extension Notifier: Hashable {
-
-    static func == (lhs: Notifier, rhs: Notifier) -> Bool {
-        lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
 
 }

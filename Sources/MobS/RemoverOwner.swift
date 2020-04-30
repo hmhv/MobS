@@ -18,27 +18,20 @@ extension RemoverOwner {
     public var remover: MobS.Remover {
         get {
             runOnMainThread {
-                getAssociatedObject(key: &removerContext, initialObject: MobS.Remover())
+                if let remover = objc_getAssociatedObject(self, &removerContext) as? MobS.Remover {
+                    return remover
+                }
+                let remover = MobS.Remover()
+                objc_setAssociatedObject(self, &removerContext, remover, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                return remover
+
             }
         }
         set {
             runOnMainThread {
-                setAssociatedObject(key: &removerContext, object: newValue)
+                objc_setAssociatedObject(self, &removerContext, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
-    }
-
-    func getAssociatedObject<T>(key: UnsafeRawPointer, initialObject: @autoclosure () -> T) -> T {
-        if let object = objc_getAssociatedObject(self, key) as? T {
-            return object
-        }
-        let object = initialObject()
-        objc_setAssociatedObject(self, key, object, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        return object
-    }
-
-    func setAssociatedObject<T>(key: UnsafeRawPointer, object: T?) {
-        objc_setAssociatedObject(self, key, object, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
 }

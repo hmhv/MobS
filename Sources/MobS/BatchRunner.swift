@@ -7,16 +7,20 @@
 
 import Foundation
 
-final class BatchRunner {
+extension MobS {
 
-    private var pendingObservers = Set<Observer>()
+    final class BatchRunner {
 
-    deinit {
-        pendingObservers.forEach { $0() }
-    }
+        private var pendingObserversForObservable = Set<Observer>()
 
-    func add(observer: Set<Observer>) {
-        pendingObservers = pendingObservers.union(observer)
+        deinit {
+            pendingObserversForObservable.forEach { $0() }
+        }
+
+        func add(observersForObservable: Set<Observer>) {
+            pendingObserversForObservable = pendingObserversForObservable.union(observersForObservable)
+        }
+
     }
 
 }
