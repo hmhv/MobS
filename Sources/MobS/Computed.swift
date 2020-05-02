@@ -51,6 +51,18 @@ extension MobS {
             }
         }
         
+        public func initComputed<O: AnyObject>(with owner: O,_ transform: @escaping (O) -> T) {
+            guard observer == nil else {
+                fatalError("initTransform was already called.")
+            }
+
+            observer = MobS.addObserver(isForComputed: true) { [weak owner, weak self] in
+                guard let owner = owner, let self = self else { return }
+                self.value = transform(owner)
+            }
+            observer?.removed(by: remover)
+        }
+
         public func initComputed(_ transform: @escaping () -> T) {
             guard observer == nil else {
                 fatalError("initTransform was already called.")

@@ -31,12 +31,11 @@ class TodoListViewModel: RemoverOwner {
     }
 
     private func initComputed() {
-        $title.initComputed { [weak self] in
-            self?.todoFilterType.listViewTitle ?? ""
+        $title.initComputed(with: self) { (self) in
+            self.todoFilterType.listViewTitle
         }
-        $todoCellModels.initComputed { [weak self] in
-            guard let self = self else { return [] }
-            return self.allTodoCellModels.filter(self.todoFilterType.todoFilter)
+        $todoCellModels.initComputed(with: self) { (self) in
+            self.allTodoCellModels.filter(self.todoFilterType.todoFilter)
         }
     }
 

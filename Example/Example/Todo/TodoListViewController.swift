@@ -34,9 +34,9 @@ class TodoListViewController: UITableViewController {
     }
 
     private func setupViewModel() {
-        addObserver { vc in
-            vc.navigationItem.title = vc.viewModel.title
-            vc.updateTableView(with: vc.viewModel.todoCellModels)
+        addObserver { (self) in
+            self.navigationItem.title = self.viewModel.title
+            self.updateTableView(with: self.viewModel.todoCellModels)
         }
     }
 
