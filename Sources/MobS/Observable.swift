@@ -15,6 +15,31 @@ extension MobS {
         private var value: T
         private lazy var notifier = Notifier()
 
+        public var wrappedValue: T {
+            get {
+                runOnMainThread {
+                    if let activeObserver = MobS.activeObservers.last {
+                        activeObserver.add(notifier: notifier)
+                        notifier.add(observer: activeObserver)
+                    }
+                    return value
+                }
+            }
+            set {
+                runOnMainThread {
+                    guard MobS.activeObservers.last == nil else {
+                        fatalError("You can not change observable in observer's action. Use MobS.Computed instead.")
+                    }
+                    value = newValue
+                    notifier()
+                }
+            }
+        }
+
+        public var projectedValue: Observable<T> {
+            self
+        }
+
         public init(value: T) {
             self.value = value
             if MobS.isTraceEnabled {
@@ -30,31 +55,6 @@ extension MobS {
                     MobS.numberOfObservable -= 1
                 }
             }
-        }
-
-        public var wrappedValue: T {
-            get {
-                runOnMainThread {
-                    if let activeObserver = MobS.activeObservers.last {
-                        activeObserver.add(notifier: notifier)
-                        notifier.add(observer: activeObserver)
-                    }
-                    return value
-                }
-            }
-            set {
-                runOnMainThread {
-                    value = newValue
-                    if MobS.activeObservers.last != nil {
-                        fatalError("You can not change observable in observer's action. Use MobS.Computed instead.")
-                    }
-                    notifier()
-                }
-            }
-        }
-
-        public var projectedValue: Observable<T> {
-            self
         }
 
         public func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O, T) -> Void) {

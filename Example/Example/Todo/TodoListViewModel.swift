@@ -9,32 +9,34 @@
 import Foundation
 import MobS
 
-class TodoListViewModel {
+class TodoListViewModel: RemoverOwner {
 
     @MobS.Observable(value: [])
-    private(set) var todoCellModels: [TodoCellModel]
+    private var allTodoCellModels: [TodoCellModel]
 
-    @MobS.Observable(value: TodoFilterType.all.listViewTitle)
-    private(set) var title: String
+    @MobS.Observable(value: .all)
+    var todoFilterType: TodoFilterType
 
-    private var allTodoCellModels: [TodoCellModel] = [] {
-        didSet {
-            todoCellModels = allTodoCellModels.filter(todoFilterType.todoFilter)
-        }
-    }
+    @MobS.Computed()
+    var todoCellModels: [TodoCellModel]
 
-    var todoFilterType: TodoFilterType = .all {
-        didSet {
-            MobS.updateState {
-                todoCellModels = allTodoCellModels.filter(todoFilterType.todoFilter)
-                title = todoFilterType.listViewTitle
-            }
-        }
-    }
-    
+    @MobS.Computed()
+    var title: String
+
     init() {
         defer {
             allTodoCellModels = (1 ..< 10).map { TodoCellModel(todo: Todo(title: "Todo \($0)", done: $0 % 2 == 0)) }
+        }
+        initComputed()
+    }
+
+    func initComputed() {
+        $title.initComputed { [weak self] in
+            self?.todoFilterType.listViewTitle ?? ""
+        }
+        $todoCellModels.initComputed { [weak self] in
+            guard let self = self else { return [] }
+            return self.allTodoCellModels.filter(self.todoFilterType.todoFilter)
         }
     }
 
