@@ -10,7 +10,7 @@ import Foundation
 extension MobS {
 
     @propertyWrapper
-    public final class Computed<T>: RemoverOwner {
+    public final class Computed<T> {
 
         private var value: T? { didSet { notifier() } }
         private var notifier = Notifier()
@@ -45,6 +45,7 @@ extension MobS {
 
         deinit {
             runOnMainThread {
+                observer?.remove()
                 if MobS.isTraceEnabled {
                     MobS.numberOfComputed -= 1
                 }
@@ -60,7 +61,6 @@ extension MobS {
                 guard let owner = owner, let self = self else { return }
                 self.value = transform(owner)
             }
-            observer?.removed(by: remover)
         }
 
         public func initComputed(_ transform: @escaping () -> T) {
@@ -72,7 +72,6 @@ extension MobS {
                 guard let self = self else { return }
                 self.value = transform()
             }
-            observer?.removed(by: remover)
         }
 
         public func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O, T) -> Void) {
