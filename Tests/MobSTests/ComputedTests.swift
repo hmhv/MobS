@@ -7,8 +7,68 @@ final class ComputedTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+
         MobS.isTraceEnabled = true
         vc = ViewController()
+
+        XCTAssertEqual(vc.scoreOutput, 0)
+        XCTAssertEqual(vc.scoreStringOutput, "")
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 0, numberOfComputed: 1)
+    }
+
+    func testInitComputed() {
+        vc.setupForInitComputed()
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
+
+        vc.updateScore()
+        XCTAssertEqual(vc.scoreStringOutput, ViewController.scoreStringResult)
+
+        vc = nil
+        checkMobSZeroInstance()
+    }
+
+    func testInitComputedWithOwner() {
+        vc.setupForInitComputedWithOwner()
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
+
+        vc.updateScore()
+        XCTAssertEqual(vc.scoreStringOutput, ViewController.scoreStringResult)
+
+        vc = nil
+        checkMobSZeroInstance()
+    }
+
+    func testComputedAddObserver() {
+        vc.setupForComputedAddObserver()
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
+
+        vc.updateScore()
+        XCTAssertEqual(vc.scoreStringOutput, ViewController.scoreStringResult)
+
+        vc = nil
+        checkMobSZeroInstance()
+    }
+
+    func testComputedBind() {
+        vc.setupForComputedBind()
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
+
+        vc.updateScore()
+        XCTAssertEqual(vc.scoreStringOutput, ViewController.scoreStringResult)
+
+        vc = nil
+        checkMobSZeroInstance()
+    }
+
+    func testComputedBindTransform() {
+        vc.setupForComputedBindTransform()
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
+
+        vc.updateScore()
+        XCTAssertEqual(vc.scoreOutput, ViewController.scoreResult)
+
+        vc = nil
+        checkMobSZeroInstance()
     }
 
     func checkMobSZeroInstance() {
@@ -19,66 +79,6 @@ final class ComputedTests: XCTestCase {
         XCTAssertEqual(MobS.numberOfObservable, numberOfObservable)
         XCTAssertEqual(MobS.numberOfObserver, numberOfObserver)
         XCTAssertEqual(MobS.numberOfComputed, numberOfComputed)
-    }
-
-    func testInitComputed() {
-        vc.setupForInitComputed()
-        XCTAssertEqual(vc.scoreOutput, 0)
-
-        vc.updateScore()
-        XCTAssertEqual(vc.scoreStringOutput, ViewController.scoreStringResult)
-
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
-        vc = nil
-        checkMobSZeroInstance()
-    }
-
-    func testInitComputedWithOwner() {
-        vc.setupForInitComputedWithOwner()
-        XCTAssertEqual(vc.scoreOutput, 0)
-
-        vc.updateScore()
-        XCTAssertEqual(vc.scoreStringOutput, ViewController.scoreStringResult)
-
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
-        vc = nil
-        checkMobSZeroInstance()
-    }
-
-    func testComputedAddObserver() {
-        vc.setupForComputedAddObserver()
-        XCTAssertEqual(vc.scoreOutput, 0)
-
-        vc.updateScore()
-        XCTAssertEqual(vc.scoreStringOutput, ViewController.scoreStringResult)
-
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
-        vc = nil
-        checkMobSZeroInstance()
-    }
-
-    func testComputedBind() {
-        vc.setupForComputedBind()
-        XCTAssertEqual(vc.scoreOutput, 0)
-
-        vc.updateScore()
-        XCTAssertEqual(vc.scoreStringOutput, ViewController.scoreStringResult)
-
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
-        vc = nil
-        checkMobSZeroInstance()
-    }
-
-    func testComputedBindTransform() {
-        vc.setupForComputedBindTransform()
-        XCTAssertEqual(vc.scoreOutput, 0)
-
-        vc.updateScore()
-        XCTAssertEqual(vc.scoreOutput, ViewController.scoreResult)
-
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 2, numberOfComputed: 1)
-        vc = nil
-        checkMobSZeroInstance()
     }
 
 }
