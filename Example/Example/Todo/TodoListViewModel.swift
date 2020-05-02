@@ -30,7 +30,7 @@ class TodoListViewModel: RemoverOwner {
         initComputed()
     }
 
-    func initComputed() {
+    private func initComputed() {
         $title.initComputed { [weak self] in
             self?.todoFilterType.listViewTitle ?? ""
         }
