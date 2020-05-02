@@ -7,6 +7,7 @@ Simple, safe state management for swift
 [![SPM compatible](https://img.shields.io/badge/SPM-Compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager/)
 [![Swift](https://img.shields.io/badge/Swift-5.2-orange.svg)](https://swift.org)
 [![MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
+![MobS](https://github.com/hmhv/MobS/workflows/MobS/badge.svg)
 
 ## Introduction
 
