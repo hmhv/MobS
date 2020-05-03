@@ -37,9 +37,34 @@ Add the <a href="https://github.com/hmhv/MobS/tree/master/Sources/MobS">MobS</a>
 
 ## Usage
 
-To Be Added
+[MobSの紹介](https://hmhv.info/2020/05/about-mobs/) | [MobS 소개](https://hmhv.info/2020/05/about-mobs-k/) 
 
-## Example
+``` swift
+class CountUpViewController: UIViewController {
+
+    // ①Create Observable
+    @MobS.Observable(value: 0)
+    var count: Int
+
+    @IBOutlet weak var countLabel: UILabel!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // ②Create Observer
+        addObserver { (self) in
+            self.countLabel.text = "\(self.count)"
+        }
+    }
+    
+    @IBAction func buttonTapped(_ sender: Any) {
+        // ③Update Observable
+        count += 1
+    }
+
+}
+```
+
 
 for more infomation, check [Example project](https://github.com/hmhv/MobS/tree/master/Example).
 
