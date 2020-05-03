@@ -38,7 +38,7 @@ class TodoDetailViewController: UIViewController {
     }
 
     @objc func commit() {
-        todoCellModel.todo = Todo(title: textField.text ?? "", done: doneSwitch.isOn)
+        todoCellModel.update(title: textField.text ?? "", done: doneSwitch.isOn)
         navigationController?.popViewController(animated: true)
     }
 

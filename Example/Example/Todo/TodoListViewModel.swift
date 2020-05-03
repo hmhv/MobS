@@ -68,6 +68,13 @@ class TodoCellModel {
         todo.done.toggle()
     }
 
+    func update(title: String, done: Bool) {
+        MobS.updateState {
+            todo.title = title
+            todo.done = done
+        }
+    }
+
 }
 
 extension TodoCellModel: Hashable {
