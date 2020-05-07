@@ -17,33 +17,43 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qDZ-f8-x7e" customClass="SoftUIView" customModule="SoftUIView">
                                 <rect key="frame" x="40" y="84" width="334" height="80"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="d8y-Lh-Ous"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZxV-Qx-zyT" customClass="SoftUIView" customModule="SoftUIView">
                                 <rect key="frame" x="40" y="204" width="334" height="80"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="Gbu-5f-Xaq"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6oA-qn-der" customClass="SoftUIView" customModule="SoftUIView">
                                 <rect key="frame" x="40" y="324" width="334" height="80"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="BEV-Hz-EGH"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Ad-eh-1UE" customClass="SoftUIView" customModule="SoftUIView">
+                                <rect key="frame" x="40" y="444" width="334" height="80"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="3Dc-K5-2W9"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="9Ad-eh-1UE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="A35-mA-wlr"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qDZ-f8-x7e" secondAttribute="trailing" constant="40" id="BBf-zq-ZLm"/>
                             <constraint firstItem="ZxV-Qx-zyT" firstAttribute="top" secondItem="qDZ-f8-x7e" secondAttribute="bottom" constant="40" id="EuM-Rt-C2v"/>
+                            <constraint firstItem="9Ad-eh-1UE" firstAttribute="top" secondItem="6oA-qn-der" secondAttribute="bottom" constant="40" id="Ltf-ES-Pf8"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ZxV-Qx-zyT" secondAttribute="trailing" constant="40" id="Mq8-dm-qpq"/>
                             <constraint firstItem="qDZ-f8-x7e" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="TWs-EG-Hze"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6oA-qn-der" secondAttribute="trailing" constant="40" id="YuV-5v-OSA"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9Ad-eh-1UE" secondAttribute="trailing" constant="40" id="ixs-8B-Rhx"/>
                             <constraint firstItem="ZxV-Qx-zyT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="qnC-d7-mvD"/>
                             <constraint firstItem="qDZ-f8-x7e" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="ryI-l2-iRk"/>
                             <constraint firstItem="6oA-qn-der" firstAttribute="top" secondItem="ZxV-Qx-zyT" secondAttribute="bottom" constant="40" id="vKK-K8-RFk"/>
@@ -53,6 +63,7 @@
                     </view>
                     <connections>
                         <outlet property="countUpView" destination="ZxV-Qx-zyT" id="6Ab-Qg-823"/>
+                        <outlet property="githubSearchView" destination="9Ad-eh-1UE" id="izS-dG-l9Q"/>
                         <outlet property="titleView" destination="qDZ-f8-x7e" id="n23-ns-Rl7"/>
                         <outlet property="todoView" destination="6oA-qn-der" id="3aq-MI-tgh"/>
                     </connections>

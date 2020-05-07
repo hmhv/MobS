@@ -14,7 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var titleView: SoftUIView!
     @IBOutlet weak var countUpView: SoftUIView!
     @IBOutlet weak var todoView: SoftUIView!
-
+    @IBOutlet weak var githubSearchView: SoftUIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -32,6 +33,9 @@ class ViewController: UIViewController {
 
         todoView.addLabel(text: "Todo")
         todoView.addTarget(self, action: #selector(showTodoVC), for: .touchUpInside)
+
+        githubSearchView.addLabel(text: "Github Search")
+        githubSearchView.addTarget(self, action: #selector(showGithubSearchVC), for: .touchUpInside)
     }
 
     @objc func showCountUpVC() {
@@ -41,6 +45,11 @@ class ViewController: UIViewController {
 
     @objc func showTodoVC() {
         let vc = TodoListViewController.newVC()
+        present(vc, animated: true)
+    }
+
+    @objc func showGithubSearchVC() {
+        let vc = GithubSearchViewController.newVC()
         present(vc, animated: true)
     }
 

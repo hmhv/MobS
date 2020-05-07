@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10016FED2463467800A67D72 /* GithubSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10016FEC2463467800A67D72 /* GithubSearchViewController.swift */; };
+		10016FEF2463469000A67D72 /* GithubSearchViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10016FEE2463469000A67D72 /* GithubSearchViewController.storyboard */; };
+		10016FF12463E31700A67D72 /* GithubSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10016FF02463E31700A67D72 /* GithubSearchCell.swift */; };
+		10016FF32464041B00A67D72 /* GithubSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10016FF22464041B00A67D72 /* GithubSearchViewModel.swift */; };
+		10016FF52464044A00A67D72 /* GithubSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10016FF42464044A00A67D72 /* GithubSearchService.swift */; };
 		10562A202452536D0031FF5D /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10562A1F2452536D0031FF5D /* TodoListViewController.swift */; };
 		10562A222452537F0031FF5D /* TodoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10562A212452537F0031FF5D /* TodoDetailViewController.swift */; };
 		10562A24245253980031FF5D /* TodoListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10562A23245253980031FF5D /* TodoListViewController.storyboard */; };
@@ -27,6 +32,11 @@
 
 /* Begin PBXFileReference section */
 		08E6060414A1D60923694036 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		10016FEC2463467800A67D72 /* GithubSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubSearchViewController.swift; sourceTree = "<group>"; };
+		10016FEE2463469000A67D72 /* GithubSearchViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GithubSearchViewController.storyboard; sourceTree = "<group>"; };
+		10016FF02463E31700A67D72 /* GithubSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubSearchCell.swift; sourceTree = "<group>"; };
+		10016FF22464041B00A67D72 /* GithubSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubSearchViewModel.swift; sourceTree = "<group>"; };
+		10016FF42464044A00A67D72 /* GithubSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubSearchService.swift; sourceTree = "<group>"; };
 		10562A1F2452536D0031FF5D /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
 		10562A212452537F0031FF5D /* TodoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailViewController.swift; sourceTree = "<group>"; };
 		10562A23245253980031FF5D /* TodoListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TodoListViewController.storyboard; sourceTree = "<group>"; };
@@ -60,6 +70,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10016FEB2463461200A67D72 /* Github */ = {
+			isa = PBXGroup;
+			children = (
+				10016FF42464044A00A67D72 /* GithubSearchService.swift */,
+				10016FF22464041B00A67D72 /* GithubSearchViewModel.swift */,
+				10016FEC2463467800A67D72 /* GithubSearchViewController.swift */,
+				10016FEE2463469000A67D72 /* GithubSearchViewController.storyboard */,
+				10016FF02463E31700A67D72 /* GithubSearchCell.swift */,
+			);
+			path = Github;
+			sourceTree = "<group>";
+		};
 		1024C2D62453EA2700BFEE8C /* Supports */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +139,7 @@
 				1024C2D62453EA2700BFEE8C /* Supports */,
 				10562A2D2453B1E80031FF5D /* CountUp */,
 				10562A1E245253490031FF5D /* Todo */,
+				10016FEB2463461200A67D72 /* Github */,
 				10C69FD724521FFE009879A0 /* ViewController.swift */,
 				10C69FD924521FFE009879A0 /* Main.storyboard */,
 				10562A322453C1050031FF5D /* Extensions.swift */,
@@ -206,6 +229,7 @@
 				10C69FDD24522001009879A0 /* Assets.xcassets in Resources */,
 				10562A26245253AF0031FF5D /* TodoDetailViewController.storyboard in Resources */,
 				10C69FDB24521FFF009879A0 /* Main.storyboard in Resources */,
+				10016FEF2463469000A67D72 /* GithubSearchViewController.storyboard in Resources */,
 				10562A312453B2650031FF5D /* CountUpViewController.storyboard in Resources */,
 				10562A24245253980031FF5D /* TodoListViewController.storyboard in Resources */,
 			);
@@ -260,15 +284,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10016FED2463467800A67D72 /* GithubSearchViewController.swift in Sources */,
 				10562A222452537F0031FF5D /* TodoDetailViewController.swift in Sources */,
+				10016FF12463E31700A67D72 /* GithubSearchCell.swift in Sources */,
 				10562A332453C1050031FF5D /* Extensions.swift in Sources */,
 				10562A202452536D0031FF5D /* TodoListViewController.swift in Sources */,
 				10562A2C245255B20031FF5D /* TodoCell.swift in Sources */,
 				10C69FD824521FFE009879A0 /* ViewController.swift in Sources */,
 				10C69FD424521FFE009879A0 /* AppDelegate.swift in Sources */,
+				10016FF52464044A00A67D72 /* GithubSearchService.swift in Sources */,
 				10562A2A2452543E0031FF5D /* TodoListViewModel.swift in Sources */,
 				10562A28245253D10031FF5D /* Todo.swift in Sources */,
 				10562A2F2453B2140031FF5D /* CountUpViewController.swift in Sources */,
+				10016FF32464041B00A67D72 /* GithubSearchViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
