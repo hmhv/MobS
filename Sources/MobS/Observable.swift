@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol ActiveObserverChecker {
+    func checkActiveObserver()
+}
+
 extension MobS {
 
     @propertyWrapper
@@ -18,10 +22,7 @@ extension MobS {
         public var wrappedValue: T {
             get {
                 runOnMainThread {
-                    if let activeObserver = MobS.activeObservers.last {
-                        activeObserver.add(notifier: notifier)
-                        notifier.add(observer: activeObserver)
-                    }
+                    checkActiveObserver()
                     return value
                 }
             }
@@ -58,9 +59,18 @@ extension MobS {
         }
 
         public func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O, T) -> Void) {
-            MobS.addObserver { [weak owner, weak self] in
+            MobS.addObserver(isForComputed: false) { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 action(owner, self.wrappedValue)
+            }.removed(by: owner.remover)
+        }
+
+        public func addObserver<O: RemoverOwner>(with owner: O, runIf: @escaping (O) -> Bool, action: @escaping (O, T) -> Void) {
+            MobS.addObserver(isForComputed: false, observables: [self]) { [weak owner, weak self] in
+                guard let owner = owner, let self = self else { return }
+                if runIf(owner) {
+                    action(owner, self.wrappedValue)
+                }
             }.removed(by: owner.remover)
         }
 
@@ -78,6 +88,17 @@ extension MobS {
             }.removed(by: owner.remover)
         }
 
+    }
+
+}
+
+extension MobS.Observable: ActiveObserverChecker {
+
+    func checkActiveObserver() {
+        if let activeObserver = MobS.activeObservers.last {
+            activeObserver.add(notifier: notifier)
+            notifier.add(observer: activeObserver)
+        }
     }
 
 }

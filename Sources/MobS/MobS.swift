@@ -17,7 +17,7 @@ public final class MobS {
     }
 
     public static func addObserver(action: @escaping () -> Void) -> Removable {
-        addObserver(isForComputed: false, action: action)
+        MobS.addObserver(isForComputed: false, action: action)
     }
 
     public static func updateState(action: () -> Void) {
@@ -39,10 +39,14 @@ extension MobS {
     private(set) static var activeObservers: [Observer] = []
     static var batchRunner: BatchRunner?
 
-    static func addObserver(isForComputed: Bool, action: @escaping () -> Void) -> Observer {
+    static func addObserver(isForComputed: Bool, observables: [ActiveObserverChecker]? = nil, action: @escaping () -> Void) -> Observer {
         runOnMainThread {
             MobS.activeObservers.append(Observer(action: action, isForComputed: isForComputed))
-            action()
+            if let observables = observables, observables.count > 0 {
+                observables.forEach { $0.checkActiveObserver() }
+            } else {
+                action()
+            }
             return MobS.activeObservers.removeLast()
         }
     }

@@ -20,12 +20,9 @@ extension MobS {
             get {
                 runOnMainThread {
                     guard let value = value else {
-                        fatalError("You must call initTransform before use.")
+                        fatalError("You must call initComputed before use.")
                     }
-                    if let activeObserver = MobS.activeObservers.last {
-                        activeObserver.add(notifier: notifier)
-                        notifier.add(observer: activeObserver)
-                    }
+                    checkActiveObserver()
                     return value
                 }
             }
@@ -54,7 +51,7 @@ extension MobS {
         
         public func initComputed<O: AnyObject>(with owner: O,_ transform: @escaping (O) -> T) {
             guard observer == nil else {
-                fatalError("initTransform was already called.")
+                fatalError("initComputed was already called.")
             }
 
             observer = MobS.addObserver(isForComputed: true) { [weak owner, weak self] in
@@ -65,7 +62,7 @@ extension MobS {
 
         public func initComputed(_ transform: @escaping () -> T) {
             guard observer == nil else {
-                fatalError("initTransform was already called.")
+                fatalError("initComputed was already called.")
             }
 
             observer = MobS.addObserver(isForComputed: true) { [weak self] in
@@ -75,9 +72,18 @@ extension MobS {
         }
 
         public func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O, T) -> Void) {
-            MobS.addObserver { [weak owner, weak self] in
+            MobS.addObserver(isForComputed: false) { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 action(owner, self.wrappedValue)
+            }.removed(by: owner.remover)
+        }
+
+        public func addObserver<O: RemoverOwner>(with owner: O, runIf: @escaping (O) -> Bool, action: @escaping (O, T) -> Void) {
+            MobS.addObserver(isForComputed: false, observables: [self]) { [weak owner, weak self] in
+                guard let owner = owner, let self = self else { return }
+                if runIf(owner) {
+                    action(owner, self.wrappedValue)
+                }
             }.removed(by: owner.remover)
         }
 
@@ -93,6 +99,18 @@ extension MobS {
                 guard let owner = owner, let self = self else { return }
                 owner[keyPath: keyPath] = transform(self.wrappedValue)
             }.removed(by: owner.remover)
+        }
+
+    }
+
+}
+
+extension MobS.Computed: ActiveObserverChecker {
+
+    func checkActiveObserver() {
+        if let activeObserver = MobS.activeObservers.last {
+            activeObserver.add(notifier: notifier)
+            notifier.add(observer: activeObserver)
         }
 
     }
