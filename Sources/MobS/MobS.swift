@@ -9,6 +9,13 @@ import Foundation
 
 public final class MobS {
 
+    public static func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O) -> Void) -> Removable {
+        MobS.addObserver { [weak owner] in
+            guard let owner = owner else { return }
+            action(owner)
+        }
+    }
+
     public static func addObserver(action: @escaping () -> Void) -> Removable {
         addObserver(isForComputed: false, action: action)
     }
