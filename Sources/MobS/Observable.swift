@@ -58,30 +58,48 @@ extension MobS {
             }
         }
 
-        public func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O, T) -> Void) {
-            MobS.addObserver(isForComputed: false) { [weak owner, weak self] in
+        @discardableResult
+        public func addObserver<O: RemoverOwner>(with owner: O,
+                                                 useRemover: Bool = true,
+                                                 action: @escaping (O, T) -> Void) -> Removable {
+            let observer = MobS.addObserver(isForComputed: false) { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 action(owner, self.wrappedValue)
-            }.removed(by: owner.remover)
+            }
+            if useRemover {
+                observer.removed(by: owner.remover)
+            }
+            return observer
         }
 
-        public func addObserver<O: RemoverOwner>(with owner: O, runIf: @escaping (O) -> Bool, action: @escaping (O, T) -> Void) {
-            MobS.addObserver(isForComputed: false, observables: [self]) { [weak owner, weak self] in
+        @discardableResult
+        public func addObserver<O: RemoverOwner>(with owner: O,
+                                                 useRemover: Bool = true,
+                                                 runIf: @escaping (O) -> Bool,
+                                                 action: @escaping (O, T) -> Void) -> Removable {
+            let observer = MobS.addObserver(isForComputed: false, observables: [self]) { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 if runIf(owner) {
                     action(owner, self.wrappedValue)
                 }
-            }.removed(by: owner.remover)
+            }
+            if useRemover {
+                observer.removed(by: owner.remover)
+            }
+            return observer
         }
 
-        public func bind<O: RemoverOwner>(to owner: O, keyPath: ReferenceWritableKeyPath<O, T>) {
+        public func bind<O: RemoverOwner>(to owner: O,
+                                          keyPath: ReferenceWritableKeyPath<O, T>) {
             MobS.addObserver { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 owner[keyPath: keyPath] = self.wrappedValue
             }.removed(by: owner.remover)
         }
 
-        public func bind<O: RemoverOwner, R>(to owner: O, keyPath: ReferenceWritableKeyPath<O, R>, transform: @escaping (T) -> R) {
+        public func bind<O: RemoverOwner, R>(to owner: O,
+                                             keyPath: ReferenceWritableKeyPath<O, R>,
+                                             transform: @escaping (T) -> R) {
             MobS.addObserver { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 owner[keyPath: keyPath] = transform(self.wrappedValue)
