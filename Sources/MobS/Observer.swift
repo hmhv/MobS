@@ -11,14 +11,11 @@ extension MobS {
 
     final class Observer: HashableClass {
 
-        let isForComputed: Bool
-
         private let action: () -> Void
         private var notifiers = Set<Notifier>()
 
-        init(action: @escaping () -> Void, isForComputed: Bool) {
+        init(action: @escaping () -> Void) {
             self.action = action
-            self.isForComputed = isForComputed
 
             super.init()
 

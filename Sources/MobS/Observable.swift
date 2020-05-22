@@ -28,9 +28,6 @@ extension MobS {
             }
             set {
                 runOnMainThread {
-                    guard MobS.activeObservers.last == nil else {
-                        fatalError("You can not change observable in observer's action. Use MobS.Computed instead.")
-                    }
                     value = newValue
                     notifier()
                 }
@@ -72,9 +69,8 @@ extension MobS {
                 }
             }
 
-            let observer = MobS.addObserver(isForComputed: false,
-                                            observables: [self],
-                                            action: wrappedAction)
+            let observer = MobS.addObserver(observables: [self], action: wrappedAction)
+
             if !skipFirst {
                 wrappedAction()
             }

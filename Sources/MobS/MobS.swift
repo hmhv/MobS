@@ -16,15 +16,15 @@ public final class MobS {
         }
     }
 
-    public static func addObserver(action: @escaping () -> Void) -> Removable {
-        MobS.addObserver(isForComputed: false, action: action)
-    }
-
     public static func updateState(action: () -> Void) {
         runOnMainThread {
             if MobS.batchRunner == nil {
-                MobS.batchRunner = BatchRunner()
+                let batchRunner = BatchRunner()
+                MobS.batchRunner = batchRunner
+
                 action()
+
+                batchRunner()
                 MobS.batchRunner = nil
             } else {
                 action()
@@ -39,9 +39,9 @@ extension MobS {
     private(set) static var activeObservers: [Observer] = []
     static var batchRunner: BatchRunner?
 
-    static func addObserver(isForComputed: Bool, observables: [ActiveObserverChecker]? = nil, action: @escaping () -> Void) -> Observer {
+    static func addObserver(observables: [ActiveObserverChecker]? = nil, action: @escaping () -> Void) -> Observer {
         runOnMainThread {
-            MobS.activeObservers.append(Observer(action: action, isForComputed: isForComputed))
+            MobS.activeObservers.append(Observer(action: action))
             if let observables = observables, observables.count > 0 {
                 observables.forEach { $0.checkActiveObserver() }
             } else {
@@ -58,7 +58,6 @@ extension MobS {
     public static var isTraceEnabled = false {
         didSet {
             numberOfObservable = 0
-            numberOfComputed = 0
             numberOfObserver = 0
         }
     }
@@ -66,14 +65,11 @@ extension MobS {
     static var numberOfObservable = 0 {
         didSet { printTraceInfo() }
     }
-    static var numberOfComputed = 0 {
-        didSet { printTraceInfo() }
-    }
     static var numberOfObserver = 0 {
         didSet { printTraceInfo() }
     }
     static func printTraceInfo() {
-        debugPrint("Observable (\(numberOfObservable)), Computed (\(numberOfComputed)), Observer (\(numberOfObserver))")
+        debugPrint("Observable (\(numberOfObservable)), Observer (\(numberOfObserver))")
     }
 
 }

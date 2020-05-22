@@ -11,14 +11,24 @@ extension MobS {
 
     final class BatchRunner {
 
-        private var pendingObserversForObservable = Set<Observer>()
+        private var pendingObservers = Set<Observer>()
 
-        deinit {
-            pendingObserversForObservable.forEach { $0() }
+        private var first = false
+
+        func add(observers: Set<Observer>) {
+            pendingObservers = pendingObservers.union(observers)
         }
 
-        func add(observersForObservable: Set<Observer>) {
-            pendingObserversForObservable = pendingObserversForObservable.union(observersForObservable)
+        func callAsFunction() {
+            while pendingObservers.count > 0 {
+                let observers = pendingObservers
+                pendingObservers.removeAll()
+                observers.forEach { $0() }
+
+                if observers == pendingObservers {
+                    fatalError("You have a circular reference. check observables in addObserver() action block.")
+                }
+            }
         }
 
     }

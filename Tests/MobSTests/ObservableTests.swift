@@ -13,12 +13,12 @@ final class ObservableTests: XCTestCase {
 
         XCTAssertEqual(vc.scoreOutput, 0)
         XCTAssertEqual(vc.scoreStringOutput, "")
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 0, numberOfComputed: 0)
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 0)
     }
 
     func testMobSAddObserver() {
         vc.setupForMobSAddObserver()
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1, numberOfComputed: 0)
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1)
 
         vc.updateScore()
         XCTAssertEqual(vc.scoreOutput, ViewController.scoreResult)
@@ -29,7 +29,7 @@ final class ObservableTests: XCTestCase {
 
     func testNSObjectAddObserver() {
         vc.setupForNSObjectAddObserver()
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1, numberOfComputed: 0)
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1)
 
         vc.updateScore()
         XCTAssertEqual(vc.scoreOutput, ViewController.scoreResult)
@@ -40,7 +40,7 @@ final class ObservableTests: XCTestCase {
 
     func testObservableAddObserver() {
         vc.setupForObservableAddObserver()
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1, numberOfComputed: 0)
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1)
 
         vc.updateScore()
         XCTAssertEqual(vc.scoreOutput, ViewController.scoreResult)
@@ -51,7 +51,7 @@ final class ObservableTests: XCTestCase {
 
     func testObservableBind() {
         vc.setupForObservableBind()
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1, numberOfComputed: 0)
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1)
 
         vc.updateScore()
         XCTAssertEqual(vc.scoreOutput, ViewController.scoreResult)
@@ -62,7 +62,7 @@ final class ObservableTests: XCTestCase {
 
     func testObservableBindTransform() {
         vc.setupForObservableBindTransform()
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1, numberOfComputed: 0)
+        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1)
 
         vc.updateScore()
         XCTAssertEqual(vc.scoreStringOutput, ViewController.scoreStringResult)
@@ -72,13 +72,12 @@ final class ObservableTests: XCTestCase {
     }
 
     func checkMobSZeroInstance() {
-        checkMobSInstanceCount(numberOfObservable: 0, numberOfObserver: 0, numberOfComputed: 0)
+        checkMobSInstanceCount(numberOfObservable: 0, numberOfObserver: 0)
     }
 
-    func checkMobSInstanceCount(numberOfObservable: Int, numberOfObserver: Int, numberOfComputed: Int) {
+    func checkMobSInstanceCount(numberOfObservable: Int, numberOfObserver: Int) {
         XCTAssertEqual(MobS.numberOfObservable, numberOfObservable)
         XCTAssertEqual(MobS.numberOfObserver, numberOfObserver)
-        XCTAssertEqual(MobS.numberOfComputed, numberOfComputed)
     }
 
 }

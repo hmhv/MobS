@@ -11,23 +11,21 @@ final class ComplexTests: XCTestCase {
         MobS.isTraceEnabled = true
         vc = ViewController()
 
-        XCTAssertEqual(vc.c1Output, "")
-        XCTAssertEqual(vc.c2Output, "")
-        XCTAssertEqual(vc.c3Output, "")
-        XCTAssertEqual(vc.c4Output, "")
+        XCTAssertEqual(vc.o1Output, 0)
+        XCTAssertEqual(vc.o2Output, 0)
+        XCTAssertEqual(vc.o3Output, 0)
         XCTAssertEqual(vc.callCount, 0)
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 4, numberOfComputed: 4)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 2)
     }
 
     func testUpdateO1() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 6, numberOfComputed: 4)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
 
         vc.updateO1()
-        XCTAssertEqual(vc.c1Output, "o1 = 1")
-        XCTAssertEqual(vc.c2Output, "o2 = 0, o3 = 0")
-        XCTAssertEqual(vc.c3Output, "o1 = 1, c1 = o1 = 1")
-        XCTAssertEqual(vc.c4Output, "o1 = 1, o3 = 0, c2 = o2 = 0, o3 = 0, c3 = o1 = 1, c1 = o1 = 1")
+        XCTAssertEqual(vc.o1Output, 1)
+        XCTAssertEqual(vc.o2Output, 1)
+        XCTAssertEqual(vc.o3Output, 1)
 
         vc = nil
         checkMobSZeroInstance()
@@ -35,13 +33,12 @@ final class ComplexTests: XCTestCase {
 
     func testUpdateO2() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 6, numberOfComputed: 4)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
 
         vc.updateO2()
-        XCTAssertEqual(vc.c1Output, "o1 = 0")
-        XCTAssertEqual(vc.c2Output, "o2 = 2, o3 = 0")
-        XCTAssertEqual(vc.c3Output, "o1 = 0, c1 = o1 = 0")
-        XCTAssertEqual(vc.c4Output, "o1 = 0, o3 = 0, c2 = o2 = 2, o3 = 0, c3 = o1 = 0, c1 = o1 = 0")
+        XCTAssertEqual(vc.o1Output, 0)
+        XCTAssertEqual(vc.o2Output, 2)
+        XCTAssertEqual(vc.o3Output, 2)
 
         vc = nil
         checkMobSZeroInstance()
@@ -49,13 +46,12 @@ final class ComplexTests: XCTestCase {
 
     func testUpdateO3() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 6, numberOfComputed: 4)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
 
         vc.updateO3()
-        XCTAssertEqual(vc.c1Output, "o1 = 0")
-        XCTAssertEqual(vc.c2Output, "o2 = 0, o3 = 3")
-        XCTAssertEqual(vc.c3Output, "o1 = 0, c1 = o1 = 0")
-        XCTAssertEqual(vc.c4Output, "o1 = 0, o3 = 3, c2 = o2 = 0, o3 = 3, c3 = o1 = 0, c1 = o1 = 0")
+        XCTAssertEqual(vc.o1Output, 0)
+        XCTAssertEqual(vc.o2Output, 0)
+        XCTAssertEqual(vc.o3Output, 3)
 
         vc = nil
         checkMobSZeroInstance()
@@ -63,13 +59,12 @@ final class ComplexTests: XCTestCase {
 
     func testUpdateAll() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 6, numberOfComputed: 4)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
 
         vc.updateAll()
-        XCTAssertEqual(vc.c1Output, "o1 = 1")
-        XCTAssertEqual(vc.c2Output, "o2 = 2, o3 = 3")
-        XCTAssertEqual(vc.c3Output, "o1 = 1, c1 = o1 = 1")
-        XCTAssertEqual(vc.c4Output, "o1 = 1, o3 = 3, c2 = o2 = 2, o3 = 3, c3 = o1 = 1, c1 = o1 = 1")
+        XCTAssertEqual(vc.o1Output, 1)
+        XCTAssertEqual(vc.o2Output, 1)
+        XCTAssertEqual(vc.o3Output, 1)
 
         vc = nil
         checkMobSZeroInstance()
@@ -77,15 +72,14 @@ final class ComplexTests: XCTestCase {
 
     func testMutipleUpdate() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 6, numberOfComputed: 4)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
 
         vc.updateO1()
         vc.updateO2()
         vc.updateO3()
-        XCTAssertEqual(vc.c1Output, "o1 = 1")
-        XCTAssertEqual(vc.c2Output, "o2 = 2, o3 = 3")
-        XCTAssertEqual(vc.c3Output, "o1 = 1, c1 = o1 = 1")
-        XCTAssertEqual(vc.c4Output, "o1 = 1, o3 = 3, c2 = o2 = 2, o3 = 3, c3 = o1 = 1, c1 = o1 = 1")
+        XCTAssertEqual(vc.o1Output, 1)
+        XCTAssertEqual(vc.o2Output, 2)
+        XCTAssertEqual(vc.o3Output, 3)
 
         vc = nil
         checkMobSZeroInstance()
@@ -94,19 +88,19 @@ final class ComplexTests: XCTestCase {
     func testCallCount() {
         vc.setupForCallCount()
         XCTAssertEqual(vc.callCount, 1)
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 5, numberOfComputed: 4)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
 
         vc.updateO1()
-        XCTAssertEqual(vc.callCount, 2)
-
-        vc.updateO2()
-        XCTAssertEqual(vc.callCount, 3)
-
-        vc.updateO3()
         XCTAssertEqual(vc.callCount, 4)
 
+        vc.updateO2()
+        XCTAssertEqual(vc.callCount, 6)
+
+        vc.updateO3()
+        XCTAssertEqual(vc.callCount, 7)
+
         vc.updateAll()
-        XCTAssertEqual(vc.callCount, 5)
+        XCTAssertEqual(vc.callCount, 10)
 
         vc = nil
         checkMobSZeroInstance()
@@ -114,18 +108,17 @@ final class ComplexTests: XCTestCase {
 
 
     func checkMobSZeroInstance() {
-        checkMobSInstanceCount(numberOfObservable: 0, numberOfObserver: 0, numberOfComputed: 0)
+        checkMobSInstanceCount(numberOfObservable: 0, numberOfObserver: 0)
     }
 
-    func checkMobSInstanceCount(numberOfObservable: Int, numberOfObserver: Int, numberOfComputed: Int) {
+    func checkMobSInstanceCount(numberOfObservable: Int, numberOfObserver: Int) {
         XCTAssertEqual(MobS.numberOfObservable, numberOfObservable)
         XCTAssertEqual(MobS.numberOfObserver, numberOfObserver)
-        XCTAssertEqual(MobS.numberOfComputed, numberOfComputed)
     }
 
 }
 
-fileprivate class ViewModel {
+fileprivate class ViewModel: RemoverOwner {
 
     @MobS.Observable(value: 0)
     var o1: Int
@@ -136,30 +129,12 @@ fileprivate class ViewModel {
     @MobS.Observable(value: 0)
     var o3: Int
 
-    @MobS.Computed
-    var c1: String
-
-    @MobS.Computed
-    var c2: String
-
-    @MobS.Computed
-    var c3: String
-
-    @MobS.Computed
-    var c4: String
-
     init() {
-        $c1.initComputed(with: self) { (self) in
-            "o1 = \(self.o1)"
+        $o1.addObserver(with: self) { (self, o1) in
+            self.o2 = o1
         }
-        $c2.initComputed(with: self) { (self) in
-            "o2 = \(self.o2), o3 = \(self.o3)"
-        }
-        $c3.initComputed(with: self) { (self) in
-            "o1 = \(self.o1), c1 = \(self.c1)"
-        }
-        $c4.initComputed(with: self) { (self) in
-            "o1 = \(self.o1), o3 = \(self.o3), c2 = \(self.c2), c3 = \(self.c3)"
+        $o2.addObserver(with: self) { (self, o2) in
+            self.o3 = o2
         }
     }
 
@@ -169,30 +144,25 @@ fileprivate class ViewController: RemoverOwner {
 
     let viewModel = ViewModel()
 
-    var c1Output = ""
-    var c2Output = ""
-    var c3Output = ""
-    var c4Output = ""
+    var o1Output = 0
+    var o2Output = 0
+    var o3Output = 0
 
     var callCount = 0
 
     func setupForUpdate() {
         addObserver { (self) in
-            self.c1Output = self.viewModel.c1
-            self.c2Output = self.viewModel.c2
-        }
-        addObserver { (self) in
-            self.c3Output = self.viewModel.c3
-            self.c4Output = self.viewModel.c4
+            self.o1Output = self.viewModel.o1
+            self.o2Output = self.viewModel.o2
+            self.o3Output = self.viewModel.o3
         }
     }
 
     func setupForCallCount() {
         addObserver { (self) in
-            self.c1Output = self.viewModel.c1
-            self.c2Output = self.viewModel.c2
-            self.c3Output = self.viewModel.c3
-            self.c4Output = self.viewModel.c4
+            self.o1Output = self.viewModel.o1
+            self.o2Output = self.viewModel.o2
+            self.o3Output = self.viewModel.o3
 
             self.callCount += 1
         }

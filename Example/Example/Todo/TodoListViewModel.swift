@@ -17,25 +17,19 @@ class TodoListViewModel: RemoverOwner {
     @MobS.Observable(value: .all)
     var todoFilterType: TodoFilterType
 
-    @MobS.Computed()
-    var todoCellModels: [TodoCellModel]
+    @MobS.Observable(value: [])
+    private(set) var todoCellModels: [TodoCellModel]
 
-    @MobS.Computed()
-    var title: String
+    @MobS.Observable(value: "")
+    private(set) var title: String
 
     init() {
         defer {
             allTodoCellModels = (1 ..< 10).map { TodoCellModel(todo: Todo(title: "Todo \($0)", done: $0 % 2 == 0)) }
         }
-        initComputed()
-    }
-
-    private func initComputed() {
-        $title.initComputed(with: self) { (self) in
-            self.todoFilterType.listViewTitle
-        }
-        $todoCellModels.initComputed(with: self) { (self) in
-            self.allTodoCellModels.filter(self.todoFilterType.todoFilter)
+        addObserver { (self) in
+            self.title = self.todoFilterType.listViewTitle
+            self.todoCellModels = self.allTodoCellModels.filter(self.todoFilterType.todoFilter)
         }
     }
 
