@@ -74,31 +74,28 @@ extension MobS {
         @discardableResult
         public func addObserver<O: RemoverOwner>(with owner: O,
                                                  useRemover: Bool = true,
+                                                 skipFirst: Bool = false,
+                                                 runIf: @escaping (O) -> Bool = { _ in true },
                                                  action: @escaping (O, T) -> Void) -> Removable {
-            let observer = MobS.addObserver(isForComputed: false) { [weak owner, weak self] in
-                guard let owner = owner, let self = self else { return }
-                action(owner, self.wrappedValue)
-            }
-            if useRemover {
-                observer.removed(by: owner.remover)
-            }
-            return observer
-        }
 
-        @discardableResult
-        public func addObserver<O: RemoverOwner>(with owner: O,
-                                                 useRemover: Bool = true,
-                                                 runIf: @escaping (O) -> Bool,
-                                                 action: @escaping (O, T) -> Void) -> Removable {
-            let observer = MobS.addObserver(isForComputed: false, observables: [self]) { [weak owner, weak self] in
+            let wrappedAction = { [weak owner, weak self] in
                 guard let owner = owner, let self = self else { return }
                 if runIf(owner) {
                     action(owner, self.wrappedValue)
                 }
             }
+
+            let observer = MobS.addObserver(isForComputed: false,
+                                            observables: [self],
+                                            action: wrappedAction)
+            if !skipFirst {
+                wrappedAction()
+            }
+
             if useRemover {
                 observer.removed(by: owner.remover)
             }
+
             return observer
         }
 
