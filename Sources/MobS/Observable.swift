@@ -69,6 +69,18 @@ extension MobS {
         }
 
         @discardableResult
+        public func addObserver<O: RemoverOwner>(with owner: O,
+                                                 useRemover: Bool = true,
+                                                 action: @escaping (O, T, Bool) -> Void) -> Removable {
+            var isFirstCall = true
+            return owner.addObserver(useRemover: useRemover) { [weak self] (owner) in
+                guard let self = self else { return }
+                action(owner, self.wrappedValue, isFirstCall)
+                isFirstCall = false
+            }
+        }
+
+        @discardableResult
         public func bind<O: RemoverOwner>(to owner: O,
                                           keyPath: ReferenceWritableKeyPath<O, T>,
                                           useRemover: Bool = true) -> Removable {

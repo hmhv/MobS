@@ -49,6 +49,20 @@ extension RemoverOwner {
         return observer
     }
 
+    @discardableResult
+    public func addObserver(useRemover: Bool = true, action: @escaping (Self, Bool) -> Void) -> Removable {
+        var isFirstCall = true
+        let observer = MobS.addObserver { [weak self] in
+            guard let self = self else { return }
+            action(self, isFirstCall)
+            isFirstCall = false
+        }
+        if useRemover {
+            observer.removed(by: remover)
+        }
+        return observer
+    }
+
 }
 
 extension NSObject: RemoverOwner {}

@@ -16,6 +16,14 @@ public final class MobS {
         }
     }
 
+    public static func addObserver(action: @escaping () -> Void) -> Removable {
+        runOnMainThread {
+            MobS.activeObservers.append(Observer(action: action))
+            action()
+            return MobS.activeObservers.removeLast()
+        }
+    }
+
     public static func updateState(action: () -> Void) {
         runOnMainThread {
             if MobS.batchRunner == nil {
@@ -38,14 +46,6 @@ extension MobS {
 
     private(set) static var activeObservers: [Observer] = []
     static var batchRunner: BatchRunner?
-
-    static func addObserver(action: @escaping () -> Void) -> Observer {
-        runOnMainThread {
-            MobS.activeObservers.append(Observer(action: action))
-            action()
-            return MobS.activeObservers.removeLast()
-        }
-    }
 
 }
 
