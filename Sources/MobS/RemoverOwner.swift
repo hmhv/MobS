@@ -24,7 +24,6 @@ extension RemoverOwner {
                 let remover = MobS.Remover()
                 objc_setAssociatedObject(self, &removerContext, remover, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
                 return remover
-
             }
         }
         set {

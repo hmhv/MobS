@@ -91,16 +91,16 @@ final class ComplexTests: XCTestCase {
         checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
 
         vc.updateO1()
-        XCTAssertEqual(vc.callCount, 4)
+        XCTAssertEqual(vc.callCount, 2)
 
         vc.updateO2()
-        XCTAssertEqual(vc.callCount, 6)
+        XCTAssertEqual(vc.callCount, 3)
 
         vc.updateO3()
-        XCTAssertEqual(vc.callCount, 7)
+        XCTAssertEqual(vc.callCount, 4)
 
         vc.updateAll()
-        XCTAssertEqual(vc.callCount, 10)
+        XCTAssertEqual(vc.callCount, 5)
 
         vc = nil
         checkMobSZeroInstance()

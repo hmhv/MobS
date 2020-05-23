@@ -39,14 +39,10 @@ extension MobS {
     private(set) static var activeObservers: [Observer] = []
     static var batchRunner: BatchRunner?
 
-    static func addObserver(observables: [ActiveObserverChecker]? = nil, action: @escaping () -> Void) -> Observer {
+    static func addObserver(action: @escaping () -> Void) -> Observer {
         runOnMainThread {
             MobS.activeObservers.append(Observer(action: action))
-            if let observables = observables, observables.count > 0 {
-                observables.forEach { $0.checkActiveObserver() }
-            } else {
-                action()
-            }
+            action()
             return MobS.activeObservers.removeLast()
         }
     }
@@ -65,9 +61,11 @@ extension MobS {
     static var numberOfObservable = 0 {
         didSet { printTraceInfo() }
     }
+
     static var numberOfObserver = 0 {
         didSet { printTraceInfo() }
     }
+
     static func printTraceInfo() {
         debugPrint("Observable (\(numberOfObservable)), Observer (\(numberOfObserver))")
     }

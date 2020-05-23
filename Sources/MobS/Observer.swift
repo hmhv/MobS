@@ -12,7 +12,8 @@ extension MobS {
     final class Observer: HashableClass {
 
         private let action: () -> Void
-        private var notifiers = Set<Notifier>()
+        private var fromNotifiers = Set<Notifier>()
+        private var toNotifiers = Set<Notifier>()
 
         init(action: @escaping () -> Void) {
             self.action = action
@@ -36,15 +37,23 @@ extension MobS {
         }
 
         func add(notifier: Notifier) {
-            notifiers.insert(notifier)
+            fromNotifiers.insert(notifier)
         }
 
         func remove(notifier: Notifier) {
-            notifiers.remove(notifier)
+            fromNotifiers.remove(notifier)
         }
 
         func callAsFunction() {
             action()
+        }
+
+        func add(toNotifier: Notifier) {
+            toNotifiers.insert(toNotifier)
+        }
+
+        var isComputed: Bool {
+            return toNotifiers.count > 0
         }
 
     }
@@ -55,8 +64,9 @@ extension MobS.Observer: Removable {
 
     func remove() {
         runOnMainThread {
-            notifiers.forEach { $0.remove(observer: self) }
-            notifiers.removeAll()
+            fromNotifiers.forEach { $0.remove(observer: self) }
+            fromNotifiers.removeAll()
+            toNotifiers.removeAll()
         }
     }
 

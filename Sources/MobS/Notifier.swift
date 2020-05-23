@@ -13,19 +13,17 @@ extension MobS {
 
         private(set) var observers = Set<Observer>()
 
-        deinit {
-            runOnMainThread {
-                observers.forEach { $0.remove(notifier: self) }
-                observers.removeAll()
-            }
-        }
-
         func add(observer: Observer) {
             observers.insert(observer)
         }
 
         func remove(observer: Observer) {
             observers.remove(observer)
+        }
+
+        func removeAll() {
+            observers.forEach { $0.remove(notifier: self) }
+            observers.removeAll()
         }
 
         func callAsFunction() {

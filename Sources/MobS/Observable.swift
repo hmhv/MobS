@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol ActiveObserverChecker {
-    func checkActiveObserver()
-}
-
 extension MobS {
 
     @propertyWrapper
@@ -22,12 +18,18 @@ extension MobS {
         public var wrappedValue: T {
             get {
                 runOnMainThread {
-                    checkActiveObserver()
+                    if let activeObserver = MobS.activeObservers.last {
+                        activeObserver.add(notifier: notifier)
+                        notifier.add(observer: activeObserver)
+                    }
                     return value
                 }
             }
             set {
                 runOnMainThread {
+                    if let activeObserver = MobS.activeObservers.last {
+                        activeObserver.add(toNotifier: notifier)
+                    }
                     value = newValue
                     notifier()
                 }
@@ -49,6 +51,7 @@ extension MobS {
 
         deinit {
             if MobS.isTraceEnabled {
+                notifier.removeAll()
                 runOnMainThread {
                     MobS.numberOfObservable -= 1
                 }
@@ -58,58 +61,34 @@ extension MobS {
         @discardableResult
         public func addObserver<O: RemoverOwner>(with owner: O,
                                                  useRemover: Bool = true,
-                                                 skipFirst: Bool = false,
-                                                 runIf: @escaping (O) -> Bool = { _ in true },
                                                  action: @escaping (O, T) -> Void) -> Removable {
-
-            let wrappedAction = { [weak owner, weak self] in
-                guard let owner = owner, let self = self else { return }
-                if runIf(owner) {
-                    action(owner, self.wrappedValue)
-                }
+            owner.addObserver(useRemover: useRemover) { [weak self] (owner) in
+                guard let self = self else { return }
+                action(owner, self.wrappedValue)
             }
-
-            let observer = MobS.addObserver(observables: [self], action: wrappedAction)
-
-            if !skipFirst {
-                wrappedAction()
-            }
-
-            if useRemover {
-                observer.removed(by: owner.remover)
-            }
-
-            return observer
         }
 
+        @discardableResult
         public func bind<O: RemoverOwner>(to owner: O,
-                                          keyPath: ReferenceWritableKeyPath<O, T>) {
-            MobS.addObserver { [weak owner, weak self] in
-                guard let owner = owner, let self = self else { return }
+                                          keyPath: ReferenceWritableKeyPath<O, T>,
+                                          useRemover: Bool = true) -> Removable {
+            owner.addObserver(useRemover: useRemover) { [weak self] (owner) in
+                guard let self = self else { return }
                 owner[keyPath: keyPath] = self.wrappedValue
-            }.removed(by: owner.remover)
+            }
         }
 
+        @discardableResult
         public func bind<O: RemoverOwner, R>(to owner: O,
                                              keyPath: ReferenceWritableKeyPath<O, R>,
-                                             transform: @escaping (T) -> R) {
-            MobS.addObserver { [weak owner, weak self] in
-                guard let owner = owner, let self = self else { return }
+                                             transform: @escaping (T) -> R,
+                                             useRemover: Bool = true) -> Removable {
+            owner.addObserver(useRemover: useRemover) { [weak self] (owner) in
+                guard let self = self else { return }
                 owner[keyPath: keyPath] = transform(self.wrappedValue)
-            }.removed(by: owner.remover)
+            }
         }
 
-    }
-
-}
-
-extension MobS.Observable: ActiveObserverChecker {
-
-    func checkActiveObserver() {
-        if let activeObserver = MobS.activeObservers.last {
-            activeObserver.add(notifier: notifier)
-            notifier.add(observer: activeObserver)
-        }
     }
 
 }

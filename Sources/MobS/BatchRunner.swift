@@ -21,11 +21,20 @@ extension MobS {
 
         func callAsFunction() {
             while pendingObservers.count > 0 {
-                let observers = pendingObservers
-                pendingObservers.removeAll()
-                observers.forEach { $0() }
+                let beforePendingObservers = pendingObservers
 
-                if observers == pendingObservers {
+                let computeds = pendingObservers.filter { $0.isComputed }
+                pendingObservers = pendingObservers.filter { !$0.isComputed }
+
+                if computeds.count > 0 {
+                    computeds.forEach { $0() }
+                } else {
+                    let observers = pendingObservers
+                    pendingObservers.removeAll()
+                    observers.forEach { $0() }
+                }
+
+                if beforePendingObservers == pendingObservers {
                     fatalError("You have a circular reference. check observables in addObserver() action block.")
                 }
             }
