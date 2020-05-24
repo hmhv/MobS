@@ -38,8 +38,8 @@ final class ObservableTests: XCTestCase {
         checkMobSZeroInstance()
     }
 
-    func testObservableAddObserver() {
-        vc.setupForObservableAddObserver()
+    func testObservableDidSet() {
+        vc.setupForObservableDidSet()
         checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1)
 
         vc.updateScore()
@@ -112,8 +112,8 @@ fileprivate class ViewController: RemoverOwner {
         }
     }
 
-    func setupForObservableAddObserver() {
-        viewModel.$score.addObserver(with: self) { (self, score) in
+    func setupForObservableDidSet() {
+        viewModel.$score.didSet(with: self) { (self, score) in
             self.scoreOutput = score
         }
     }

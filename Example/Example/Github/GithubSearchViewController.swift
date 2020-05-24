@@ -40,7 +40,7 @@ class GithubSearchViewController: UIViewController {
     }
 
     private func setupObserver() {
-        viewModel.$repos.addObserver(with: self) { (self, _) in
+        viewModel.$repos.didSet(with: self) { (self, _) in
             self.reloadData()
         }
         viewModel.$isLoading.bind(to: footerView, keyPath: \.isHidden) { (isLoading) in

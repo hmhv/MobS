@@ -130,10 +130,10 @@ fileprivate class ViewModel: RemoverOwner {
     var o3: Int
 
     init() {
-        $o1.addObserver(with: self) { (self, o1) in
+        $o1.didSet(with: self) { (self, o1) in
             self.o2 = o1
         }
-        $o2.addObserver(with: self) { (self, o2) in
+        $o2.didSet(with: self) { (self, o2) in
             self.o3 = o2
         }
     }
