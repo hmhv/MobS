@@ -58,44 +58,36 @@ extension MobS {
             }
         }
 
-        @discardableResult
         public func didSet<O: RemoverOwner>(with owner: O,
-                                            useRemover: Bool = true,
-                                            action: @escaping (O, T) -> Void) -> Removable {
-            owner.addObserver(useRemover: useRemover) { [weak self] (owner) in
+                                            action: @escaping (O, T) -> Void) {
+            owner.addObserver { [weak self] (owner) in
                 guard let self = self else { return }
                 action(owner, self.wrappedValue)
             }
         }
 
-        @discardableResult
         public func didSet<O: RemoverOwner>(with owner: O,
-                                            useRemover: Bool = true,
-                                            action: @escaping (O, T, Bool) -> Void) -> Removable {
+                                            action: @escaping (O, T, Bool) -> Void) {
             var isFirstCall = true
-            return owner.addObserver(useRemover: useRemover) { [weak self] (owner) in
+            return owner.addObserver { [weak self] (owner) in
                 guard let self = self else { return }
                 action(owner, self.wrappedValue, isFirstCall)
                 isFirstCall = false
             }
         }
 
-        @discardableResult
         public func bind<O: RemoverOwner>(to owner: O,
-                                          keyPath: ReferenceWritableKeyPath<O, T>,
-                                          useRemover: Bool = true) -> Removable {
-            owner.addObserver(useRemover: useRemover) { [weak self] (owner) in
+                                          keyPath: ReferenceWritableKeyPath<O, T>) {
+            owner.addObserver { [weak self] (owner) in
                 guard let self = self else { return }
                 owner[keyPath: keyPath] = self.wrappedValue
             }
         }
 
-        @discardableResult
         public func bind<O: RemoverOwner, R>(to owner: O,
                                              keyPath: ReferenceWritableKeyPath<O, R>,
-                                             transform: @escaping (T) -> R,
-                                             useRemover: Bool = true) -> Removable {
-            owner.addObserver(useRemover: useRemover) { [weak self] (owner) in
+                                             transform: @escaping (T) -> R) {
+            owner.addObserver { [weak self] (owner) in
                 guard let self = self else { return }
                 owner[keyPath: keyPath] = transform(self.wrappedValue)
             }

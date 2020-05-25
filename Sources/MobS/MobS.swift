@@ -16,6 +16,15 @@ public final class MobS {
         }
     }
 
+    public static func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O, Bool) -> Void) -> Removable {
+        var isFirstCall = true
+        return MobS.addObserver { [weak owner] in
+            guard let owner = owner else { return }
+            action(owner, isFirstCall)
+            isFirstCall = false
+        }
+    }
+
     public static func addObserver(action: @escaping () -> Void) -> Removable {
         runOnMainThread {
             MobS.activeObservers.append(Observer(action: action))

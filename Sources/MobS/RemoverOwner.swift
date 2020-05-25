@@ -37,30 +37,20 @@ extension RemoverOwner {
 
 extension RemoverOwner {
 
-    @discardableResult
-    public func addObserver(useRemover: Bool = true, action: @escaping (Self) -> Void) -> Removable {
-        let observer = MobS.addObserver { [weak self] in
+    public func addObserver(useRemover: Bool = true, action: @escaping (Self) -> Void) {
+        MobS.addObserver { [weak self] in
             guard let self = self else { return }
             action(self)
-        }
-        if useRemover {
-            observer.removed(by: remover)
-        }
-        return observer
+        }.removed(by: remover)
     }
 
-    @discardableResult
-    public func addObserver(useRemover: Bool = true, action: @escaping (Self, Bool) -> Void) -> Removable {
+    public func addObserver(useRemover: Bool = true, action: @escaping (Self, Bool) -> Void) {
         var isFirstCall = true
-        let observer = MobS.addObserver { [weak self] in
+        MobS.addObserver { [weak self] in
             guard let self = self else { return }
             action(self, isFirstCall)
             isFirstCall = false
-        }
-        if useRemover {
-            observer.removed(by: remover)
-        }
-        return observer
+        }.removed(by: remover)
     }
 
 }
