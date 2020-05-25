@@ -53,7 +53,7 @@ public final class MobS {
 
 extension MobS {
 
-    private(set) static var activeObservers: [Observer] = []
+    static var activeObservers: [Observer] = []
     static var batchRunner: BatchRunner?
 
 }

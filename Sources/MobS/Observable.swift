@@ -15,6 +15,8 @@ extension MobS {
         private var value: T
         private lazy var notifier = Notifier()
 
+        private var activeObserversBackup: [Observer] = []
+
         public var wrappedValue: T {
             get {
                 runOnMainThread {
@@ -27,11 +29,21 @@ extension MobS {
             }
             set {
                 runOnMainThread {
+                    if activeObserversBackup.count > 0 {
+                        fatalError("You have a circular reference. check observables in addObserver() action block.")
+                    }
                     if let activeObserver = MobS.activeObservers.last {
                         activeObserver.add(toNotifier: notifier)
+                        activeObserversBackup = MobS.activeObservers
+                        MobS.activeObservers = []
+                        value = newValue
+                        notifier()
+                        MobS.activeObservers = activeObserversBackup
+                        activeObserversBackup = []
+                    } else {
+                        value = newValue
+                        notifier()
                     }
-                    value = newValue
-                    notifier()
                 }
             }
         }
