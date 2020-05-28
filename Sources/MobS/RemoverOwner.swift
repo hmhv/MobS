@@ -35,24 +35,4 @@ extension RemoverOwner {
 
 }
 
-extension RemoverOwner {
-
-    public func addObserver(action: @escaping (Self) -> Void) {
-        MobS.addObserver { [weak self] in
-            guard let self = self else { return }
-            action(self)
-        }.removed(by: remover)
-    }
-
-    public func addObserver(action: @escaping (Self, Bool) -> Void) {
-        var isFirstCall = true
-        MobS.addObserver { [weak self] in
-            guard let self = self else { return }
-            action(self, isFirstCall)
-            isFirstCall = false
-        }.removed(by: remover)
-    }
-
-}
-
 extension NSObject: RemoverOwner {}

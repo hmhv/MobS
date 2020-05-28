@@ -27,9 +27,10 @@ class TodoListViewModel: RemoverOwner {
         defer {
             allTodoCellModels = (1 ..< 10).map { TodoCellModel(todo: Todo(title: "Todo \($0)", done: $0 % 2 == 0)) }
         }
-        addObserver { (self) in
-            self.title = self.todoFilterType.listViewTitle
+
+        [$todoFilterType, $allTodoCellModels].addObserver(with: self) { (self) in
             self.todoCellModels = self.allTodoCellModels.filter(self.todoFilterType.todoFilter)
+            self.title = "\(self.todoFilterType.listViewTitle) :: \(self.todoCellModels.count)"
         }
     }
 

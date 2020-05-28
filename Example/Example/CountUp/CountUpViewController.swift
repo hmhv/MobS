@@ -19,27 +19,13 @@ class CountUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addObserver { (self) in
+        $count.addObserver(with: self) { (self) in
             self.countLabel.text = "\(self.count)"
         }
-
-//        MobS.addObserver(with: self) { (self) in
-//            self.countLabel.text = "\(self.count)"
-//        }.removed(by: remover)
-
-//        MobS.addObserver { [weak self] in
-//            guard let self = self else { return }
-//            self.countLabel.text = "\(self.count)"
-//        }.removed(by: remover)
-
-//        $count.addObserver(with: self) { (self, count) in
-//            self.countLabel.text = "\(count)"
-//        }
 
 //        $count.bind(to: countLabel, keyPath: \.text) { (count) in
 //            "\(count)"
 //        }
-
     }
     
     @IBAction func buttonTapped(_ sender: Any) {

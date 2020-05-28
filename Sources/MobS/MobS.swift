@@ -9,30 +9,6 @@ import Foundation
 
 public final class MobS {
 
-    public static func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O) -> Void) -> Removable {
-        MobS.addObserver { [weak owner] in
-            guard let owner = owner else { return }
-            action(owner)
-        }
-    }
-
-    public static func addObserver<O: RemoverOwner>(with owner: O, action: @escaping (O, Bool) -> Void) -> Removable {
-        var isFirstCall = true
-        return MobS.addObserver { [weak owner] in
-            guard let owner = owner else { return }
-            action(owner, isFirstCall)
-            isFirstCall = false
-        }
-    }
-
-    public static func addObserver(action: @escaping () -> Void) -> Removable {
-        runOnMainThread {
-            MobS.activeObservers.append(Observer(action: action))
-            action()
-            return MobS.activeObservers.removeLast()
-        }
-    }
-
     public static func updateState(action: () -> Void) {
         runOnMainThread {
             if MobS.batchRunner == nil {
@@ -55,6 +31,17 @@ extension MobS {
 
     static var activeObservers: [Observer] = []
     static var batchRunner: BatchRunner?
+
+    static func addObserver(observables: [ObserverCheckable], skipInitialCall: Bool, action: @escaping () -> Void) -> Removable {
+        runOnMainThread {
+            MobS.activeObservers.append(Observer(action: action))
+            observables.forEach { $0.checkObserver() }
+            if !skipInitialCall {
+                action()
+            }
+            return MobS.activeObservers.removeLast()
+        }
+    }
 
 }
 

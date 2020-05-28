@@ -22,11 +22,7 @@ extension MobS {
         public var wrappedValue: T {
             get {
                 runOnMainThread {
-                    if let activeObserver = MobS.activeObservers.last {
-                        activeObserver.add(notifier: notifier)
-                        notifier.add(observer: activeObserver)
-                    }
-                    return value
+                    value
                 }
             }
             set {
@@ -72,41 +68,50 @@ extension MobS {
             }
         }
 
-        public func didSet<O: RemoverOwner>(with owner: O,
-                                            action: @escaping (O, T) -> Void) {
-            owner.addObserver { [weak self] (owner) in
-                guard let self = self else { return }
-                action(owner, self.wrappedValue)
+        @discardableResult
+        public func addObserver<O: RemoverOwner>(with owner: O,
+                                                 skipInitialCall: Bool = false,
+                                                 useRemover: Bool = true,
+                                                 action: @escaping (O) -> Void) -> Removable {
+            let observer = MobS.addObserver(observables: [self], skipInitialCall: skipInitialCall) { [weak owner] in
+                guard let owner = owner else { return }
+                action(owner)
             }
-        }
-
-        public func didSet<O: RemoverOwner>(with owner: O,
-                                            action: @escaping (O, T, Bool) -> Void) {
-            var isFirstCall = true
-            return owner.addObserver { [weak self] (owner) in
-                guard let self = self else { return }
-                action(owner, self.wrappedValue, isFirstCall)
-                isFirstCall = false
+            if useRemover {
+                observer.removed(by: owner.remover)
             }
+            return observer
         }
 
         public func bind<O: RemoverOwner>(to owner: O,
                                           keyPath: ReferenceWritableKeyPath<O, T>) {
-            owner.addObserver { [weak self] (owner) in
-                guard let self = self else { return }
+            MobS.addObserver(observables: [self], skipInitialCall: false) { [weak self, weak owner] in
+                guard let self = self, let owner = owner else { return }
                 owner[keyPath: keyPath] = self.wrappedValue
-            }
+            }.removed(by: owner.remover)
         }
 
         public func bind<O: RemoverOwner, R>(to owner: O,
                                              keyPath: ReferenceWritableKeyPath<O, R>,
                                              transform: @escaping (T) -> R) {
-            owner.addObserver { [weak self] (owner) in
-                guard let self = self else { return }
+            MobS.addObserver(observables: [self], skipInitialCall: false) { [weak self, weak owner] in
+                guard let self = self, let owner = owner else { return }
                 owner[keyPath: keyPath] = transform(self.wrappedValue)
-            }
+            }.removed(by: owner.remover)
         }
 
+    }
+
+}
+
+extension MobS.Observable: ObserverCheckable {
+
+    /// Don't call this method directly. For internal use only.
+    public func checkObserver() {
+        if let activeObserver = MobS.activeObservers.last {
+            activeObserver.add(notifier: notifier)
+            notifier.add(observer: activeObserver)
+        }
     }
 
 }
