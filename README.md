@@ -52,7 +52,7 @@ class CountUpViewController: UIViewController {
         super.viewDidLoad()
 
         // ②Create Observer
-        addObserver { (self) in
+        $count.addObserver(with: self) { (self) in
             self.countLabel.text = "\(self.count)"
         }
     }
