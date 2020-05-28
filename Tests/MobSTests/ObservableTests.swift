@@ -16,30 +16,8 @@ final class ObservableTests: XCTestCase {
         checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 0)
     }
 
-    func testMobSAddObserver() {
-        vc.setupForMobSAddObserver()
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1)
-
-        vc.updateScore()
-        XCTAssertEqual(vc.scoreOutput, ViewController.scoreResult)
-
-        vc = nil
-        checkMobSZeroInstance()
-    }
-
-    func testNSObjectAddObserver() {
-        vc.setupForNSObjectAddObserver()
-        checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1)
-
-        vc.updateScore()
-        XCTAssertEqual(vc.scoreOutput, ViewController.scoreResult)
-
-        vc = nil
-        checkMobSZeroInstance()
-    }
-
-    func testObservableDidSet() {
-        vc.setupForObservableDidSet()
+    func testObservableAddObserver() {
+        vc.setupForObservableAddObserver()
         checkMobSInstanceCount(numberOfObservable: 1, numberOfObserver: 1)
 
         vc.updateScore()
@@ -99,22 +77,9 @@ fileprivate class ViewController: RemoverOwner {
     var scoreOutput = 0
     var scoreStringOutput = ""
 
-    func setupForMobSAddObserver() {
-        MobS.addObserver { [weak self] in
-            guard let self = self else { return }
+    func setupForObservableAddObserver() {
+        viewModel.$score.addObserver(with: self) { (self) in
             self.scoreOutput = self.viewModel.score
-        }.removed(by: remover)
-    }
-
-    func setupForNSObjectAddObserver() {
-        addObserver { (self) in
-            self.scoreOutput = self.viewModel.score
-        }
-    }
-
-    func setupForObservableDidSet() {
-        viewModel.$score.didSet(with: self) { (self, score) in
-            self.scoreOutput = score
         }
     }
 

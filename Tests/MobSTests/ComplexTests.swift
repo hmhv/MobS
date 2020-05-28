@@ -20,7 +20,7 @@ final class ComplexTests: XCTestCase {
 
     func testUpdateO1() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 5)
 
         vc.updateO1()
         XCTAssertEqual(vc.o1Output, 1)
@@ -33,7 +33,7 @@ final class ComplexTests: XCTestCase {
 
     func testUpdateO2() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 5)
 
         vc.updateO2()
         XCTAssertEqual(vc.o1Output, 0)
@@ -46,7 +46,7 @@ final class ComplexTests: XCTestCase {
 
     func testUpdateO3() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 5)
 
         vc.updateO3()
         XCTAssertEqual(vc.o1Output, 0)
@@ -59,7 +59,7 @@ final class ComplexTests: XCTestCase {
 
     func testUpdateAll() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 5)
 
         vc.updateAll()
         XCTAssertEqual(vc.o1Output, 1)
@@ -72,7 +72,7 @@ final class ComplexTests: XCTestCase {
 
     func testMutipleUpdate() {
         vc.setupForUpdate()
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
+        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 5)
 
         vc.updateO1()
         vc.updateO2()
@@ -84,28 +84,6 @@ final class ComplexTests: XCTestCase {
         vc = nil
         checkMobSZeroInstance()
     }
-
-    func testCallCount() {
-        vc.setupForCallCount()
-        XCTAssertEqual(vc.callCount, 1)
-        checkMobSInstanceCount(numberOfObservable: 3, numberOfObserver: 3)
-
-        vc.updateO1()
-        XCTAssertEqual(vc.callCount, 2)
-
-        vc.updateO2()
-        XCTAssertEqual(vc.callCount, 3)
-
-        vc.updateO3()
-        XCTAssertEqual(vc.callCount, 4)
-
-        vc.updateAll()
-        XCTAssertEqual(vc.callCount, 5)
-
-        vc = nil
-        checkMobSZeroInstance()
-    }
-
 
     func checkMobSZeroInstance() {
         checkMobSInstanceCount(numberOfObservable: 0, numberOfObserver: 0)
@@ -130,11 +108,11 @@ fileprivate class ViewModel: RemoverOwner {
     var o3: Int
 
     init() {
-        $o1.didSet(with: self) { (self, o1) in
-            self.o2 = o1
+        $o1.addObserver(with: self) { (self) in
+            self.o2 = self.o1
         }
-        $o2.didSet(with: self) { (self, o2) in
-            self.o3 = o2
+        $o2.addObserver(with: self) { (self) in
+            self.o3 = self.o2
         }
     }
 
@@ -151,20 +129,14 @@ fileprivate class ViewController: RemoverOwner {
     var callCount = 0
 
     func setupForUpdate() {
-        addObserver { (self) in
+        viewModel.$o1.addObserver(with: self) { (self) in
             self.o1Output = self.viewModel.o1
-            self.o2Output = self.viewModel.o2
-            self.o3Output = self.viewModel.o3
         }
-    }
-
-    func setupForCallCount() {
-        addObserver { (self) in
-            self.o1Output = self.viewModel.o1
+        viewModel.$o2.addObserver(with: self) { (self) in
             self.o2Output = self.viewModel.o2
+        }
+        viewModel.$o3.addObserver(with: self) { (self) in
             self.o3Output = self.viewModel.o3
-
-            self.callCount += 1
         }
     }
 
