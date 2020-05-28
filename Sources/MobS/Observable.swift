@@ -17,8 +17,6 @@ extension MobS {
 
         private var activeObserversBackup: [Observer] = []
 
-        public var rawValue: T { value }
-
         public var wrappedValue: T {
             get {
                 runOnMainThread {
@@ -28,7 +26,7 @@ extension MobS {
             set {
                 runOnMainThread {
                     if activeObserversBackup.count > 0 {
-                        fatalError("You have a circular reference. check observables in addObserver() action block. then use Observable<T>.rawValue.")
+                        fatalError("You have a circular reference. check observables in addObserver() action block.")
                     }
                     if let activeObserver = MobS.activeObservers.last {
                         activeObserver.add(toNotifier: notifier)
