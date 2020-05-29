@@ -9,7 +9,7 @@
 import Foundation
 import MobS
 
-class TodoListViewModel: RemoverOwner {
+class TodoListViewModel: MobSRemoverOwner {
 
     @MobS.Observable(value: [])
     private var allTodoCellModels: [TodoCellModel]

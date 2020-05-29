@@ -60,7 +60,7 @@ extension MobS {
 
 }
 
-extension MobS.Observer: Removable {
+extension MobS.Observer: MobSRemovable {
 
     func remove() {
         runOnMainThread {

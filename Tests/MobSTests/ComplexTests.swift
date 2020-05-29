@@ -96,7 +96,7 @@ final class ComplexTests: XCTestCase {
 
 }
 
-fileprivate class ViewModel: RemoverOwner {
+fileprivate class ViewModel: MobSRemoverOwner {
 
     @MobS.Observable(value: 0)
     var o1: Int
@@ -118,7 +118,7 @@ fileprivate class ViewModel: RemoverOwner {
 
 }
 
-fileprivate class ViewController: RemoverOwner {
+fileprivate class ViewController: MobSRemoverOwner {
 
     let viewModel = ViewModel()
 

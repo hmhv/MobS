@@ -11,13 +11,13 @@ extension MobS {
     
     public final class Remover {
 
-        private var removables: [Removable] = []
+        private var removables: [MobSRemovable] = []
 
         deinit {
             removeAll()
         }
 
-        public func add(removable: Removable) {
+        public func add(removable: MobSRemovable) {
             runOnMainThread {
                 removables.append(removable)
             }

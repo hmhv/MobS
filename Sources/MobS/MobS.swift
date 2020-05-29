@@ -32,7 +32,7 @@ extension MobS {
     static var activeObservers: [Observer] = []
     static var batchRunner: BatchRunner?
 
-    static func addObserver(observables: [ObserverCheckable], skipInitialCall: Bool, action: @escaping () -> Void) -> Removable {
+    static func addObserver(observables: [MobSObserverCheckable], skipInitialCall: Bool, action: @escaping () -> Void) -> MobSRemovable {
         runOnMainThread {
             MobS.activeObservers.append(Observer(action: action))
             observables.forEach { $0.checkObserver() }

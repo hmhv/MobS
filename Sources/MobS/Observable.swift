@@ -67,10 +67,10 @@ extension MobS {
         }
 
         @discardableResult
-        public func addObserver<O: RemoverOwner>(with owner: O,
+        public func addObserver<O: MobSRemoverOwner>(with owner: O,
                                                  skipInitialCall: Bool = false,
                                                  useRemover: Bool = true,
-                                                 action: @escaping (O) -> Void) -> Removable {
+                                                 action: @escaping (O) -> Void) -> MobSRemovable {
             let observer = MobS.addObserver(observables: [self], skipInitialCall: skipInitialCall) { [weak owner] in
                 guard let owner = owner else { return }
                 action(owner)
@@ -81,7 +81,7 @@ extension MobS {
             return observer
         }
 
-        public func bind<O: RemoverOwner>(to owner: O,
+        public func bind<O: MobSRemoverOwner>(to owner: O,
                                           keyPath: ReferenceWritableKeyPath<O, T>) {
             MobS.addObserver(observables: [self], skipInitialCall: false) { [weak self, weak owner] in
                 guard let self = self, let owner = owner else { return }
@@ -89,7 +89,7 @@ extension MobS {
             }.removed(by: owner.remover)
         }
 
-        public func bind<O: RemoverOwner, R>(to owner: O,
+        public func bind<O: MobSRemoverOwner, R>(to owner: O,
                                              keyPath: ReferenceWritableKeyPath<O, R>,
                                              transform: @escaping (T) -> R) {
             MobS.addObserver(observables: [self], skipInitialCall: false) { [weak self, weak owner] in
@@ -102,7 +102,7 @@ extension MobS {
 
 }
 
-extension MobS.Observable: ObserverCheckable {
+extension MobS.Observable: MobSObserverCheckable {
 
     /// Don't call this method directly. For internal use only.
     public func checkObserver() {

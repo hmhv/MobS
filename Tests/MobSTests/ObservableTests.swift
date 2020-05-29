@@ -67,7 +67,7 @@ fileprivate class ViewModel {
 
 }
 
-fileprivate class ViewController: RemoverOwner {
+fileprivate class ViewController: MobSRemoverOwner {
 
     static let scoreResult = 3
     static let scoreStringResult = "3"

@@ -1,5 +1,5 @@
 //
-//  Removable.swift
+//  MobSRemovable.swift
 //  MobS
 //
 //  Created by MYUNGHOON HONG on 2020/04/24.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-public protocol Removable {
+public protocol MobSRemovable {
     func remove()
 }
 
-extension Removable {
+extension MobSRemovable {
 
     public func removed(by remover: MobS.Remover) {
         remover.add(removable: self)

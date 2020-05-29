@@ -1,5 +1,5 @@
 //
-//  RemoverOwner.swift
+//  MobSRemoverOwner.swift
 //  MobS
 //
 //  Created by MYUNGHOON HONG on 2020/04/24.
@@ -9,11 +9,11 @@ import Foundation
 
 private var removerContext = 0
 
-public protocol RemoverOwner: AnyObject {
+public protocol MobSRemoverOwner: AnyObject {
     var remover: MobS.Remover { get set }
 }
 
-extension RemoverOwner {
+extension MobSRemoverOwner {
 
     public var remover: MobS.Remover {
         get {
@@ -35,4 +35,4 @@ extension RemoverOwner {
 
 }
 
-extension NSObject: RemoverOwner {}
+extension NSObject: MobSRemoverOwner {}
