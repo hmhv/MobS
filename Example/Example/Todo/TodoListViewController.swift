@@ -8,12 +8,19 @@
 
 import UIKit
 
+enum TodoSection: CaseIterable {
+    case todo
+}
+
 class TodoListViewController: UITableViewController {
 
     private let viewModel = TodoListViewModel()
     private lazy var dataSource: UITableViewDiffableDataSource<TodoSection, TodoCellModel> = {
-        let dataSource = UITableViewDiffableDataSource<TodoSection, TodoCellModel>(tableView: tableView) { (tableView, indexPath, item) -> UITableViewCell? in
-            tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath)
+        let dataSource = UITableViewDiffableDataSource<TodoSection, TodoCellModel>(tableView: tableView) { [weak self] (tableView, indexPath, item) in
+            guard let self = self else { return nil }
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TodoCell.self), for: indexPath) as! TodoCell
+            cell.cellModel = item
+            return cell
         }
         dataSource.defaultRowAnimation = .fade
         return dataSource
@@ -35,7 +42,7 @@ class TodoListViewController: UITableViewController {
 
     private func setupViewModel() {
         viewModel.$title.addObserver(with: self) { (self) in
-            self.navigationItem.title = self.title
+            self.navigationItem.title = self.viewModel.title
         }
         viewModel.$todoCellModels.addObserver(with: self) { (self) in
             self.updateTableView(with: self.viewModel.todoCellModels)
@@ -47,7 +54,7 @@ class TodoListViewController: UITableViewController {
     }
 
     @objc func changeFilter() {
-        viewModel.todoFilterType.toggle()
+        viewModel.todoFilter.toggle()
     }
 
     func showTodoDetailVC(todoCellModel: TodoCellModel) {
@@ -66,10 +73,6 @@ extension TodoListViewController {
         snapshot.appendSections(TodoSection.allCases)
         snapshot.appendItems(cellModels, toSection: .todo)
         dataSource.apply(snapshot)
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as? TodoCell).map { $0.cellModel = viewModel.todoCellModels[indexPath.row] }
     }
 
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {

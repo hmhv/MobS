@@ -14,7 +14,7 @@ struct Todo: Hashable {
     var title: String
     var done: Bool
 
-    init(title: String = "", done: Bool = false) {
+    init(title: String = "new Todo", done: Bool = false) {
         id = IDGenerator.newId()
         self.title = title
         self.done = done

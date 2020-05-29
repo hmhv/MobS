@@ -22,6 +22,8 @@
 		10562A2F2453B2140031FF5D /* CountUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10562A2E2453B2140031FF5D /* CountUpViewController.swift */; };
 		10562A312453B2650031FF5D /* CountUpViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10562A302453B2650031FF5D /* CountUpViewController.storyboard */; };
 		10562A332453C1050031FF5D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10562A322453C1050031FF5D /* Extensions.swift */; };
+		108DCB2C2481991100BFB701 /* TodoFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108DCB2B2481991100BFB701 /* TodoFilter.swift */; };
+		108DCB2E2481996300BFB701 /* TodoCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108DCB2D2481996300BFB701 /* TodoCellModel.swift */; };
 		10C69FD424521FFE009879A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C69FD324521FFE009879A0 /* AppDelegate.swift */; };
 		10C69FD824521FFE009879A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C69FD724521FFE009879A0 /* ViewController.swift */; };
 		10C69FDB24521FFF009879A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10C69FD924521FFE009879A0 /* Main.storyboard */; };
@@ -47,6 +49,8 @@
 		10562A2E2453B2140031FF5D /* CountUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountUpViewController.swift; sourceTree = "<group>"; };
 		10562A302453B2650031FF5D /* CountUpViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CountUpViewController.storyboard; sourceTree = "<group>"; };
 		10562A322453C1050031FF5D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		108DCB2B2481991100BFB701 /* TodoFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoFilter.swift; sourceTree = "<group>"; };
+		108DCB2D2481996300BFB701 /* TodoCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCellModel.swift; sourceTree = "<group>"; };
 		10C69FD024521FFE009879A0 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10C69FD324521FFE009879A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10C69FD724521FFE009879A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -96,7 +100,9 @@
 			isa = PBXGroup;
 			children = (
 				10562A27245253D10031FF5D /* Todo.swift */,
+				108DCB2D2481996300BFB701 /* TodoCellModel.swift */,
 				10562A292452543E0031FF5D /* TodoListViewModel.swift */,
+				108DCB2B2481991100BFB701 /* TodoFilter.swift */,
 				10562A1F2452536D0031FF5D /* TodoListViewController.swift */,
 				10562A23245253980031FF5D /* TodoListViewController.storyboard */,
 				10562A2B245255B20031FF5D /* TodoCell.swift */,
@@ -288,6 +294,7 @@
 				10562A222452537F0031FF5D /* TodoDetailViewController.swift in Sources */,
 				10016FF12463E31700A67D72 /* GithubSearchCell.swift in Sources */,
 				10562A332453C1050031FF5D /* Extensions.swift in Sources */,
+				108DCB2E2481996300BFB701 /* TodoCellModel.swift in Sources */,
 				10562A202452536D0031FF5D /* TodoListViewController.swift in Sources */,
 				10562A2C245255B20031FF5D /* TodoCell.swift in Sources */,
 				10C69FD824521FFE009879A0 /* ViewController.swift in Sources */,
@@ -297,6 +304,7 @@
 				10562A28245253D10031FF5D /* Todo.swift in Sources */,
 				10562A2F2453B2140031FF5D /* CountUpViewController.swift in Sources */,
 				10016FF32464041B00A67D72 /* GithubSearchViewModel.swift in Sources */,
+				108DCB2C2481991100BFB701 /* TodoFilter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,7 +15,7 @@ class TodoListViewModel: MobSRemoverOwner {
     private var allTodoCellModels: [TodoCellModel]
 
     @MobS.Observable(value: .all)
-    var todoFilterType: TodoFilterType
+    var todoFilter: TodoFilter
 
     @MobS.Observable(value: [])
     private(set) var todoCellModels: [TodoCellModel]
@@ -24,18 +24,15 @@ class TodoListViewModel: MobSRemoverOwner {
     private(set) var title: String
 
     init() {
-        defer {
-            allTodoCellModels = (1 ..< 10).map { TodoCellModel(todo: Todo(title: "Todo \($0)", done: $0 % 2 == 0)) }
-        }
+        defer { addTestTodos() }
 
-        [$todoFilterType, $allTodoCellModels].addObserver(with: self) { (self) in
-            self.todoCellModels = self.allTodoCellModels.filter(self.todoFilterType.todoFilter)
-            self.title = "\(self.todoFilterType.listViewTitle) :: \(self.todoCellModels.count)"
+        [$todoFilter, $allTodoCellModels].addObserver(with: self) { (self) in
+            self.updateTodoCellModels()
         }
     }
 
     func addNewTodo() -> TodoCellModel {
-        let cm = TodoCellModel(todo: Todo())
+        let cm = TodoCellModel(todo: Todo()) { [weak self] in self?.updateTodoCellModels() }
         allTodoCellModels.append(cm)
         return cm
     }
@@ -43,85 +40,22 @@ class TodoListViewModel: MobSRemoverOwner {
     func delete(cellModel: TodoCellModel) {
         allTodoCellModels.removeAll { $0.todo == cellModel.todo }
     }
-    
-}
 
-enum TodoSection: CaseIterable {
-    case todo
-}
-
-class TodoCellModel {
-
-    @MobS.Observable
-    var todo: Todo
-
-    init(todo: Todo) {
-        _todo = MobS.Observable(value: todo)
-    }
-
-    func toggle() {
-        todo.done.toggle()
-    }
-
-    func update(title: String, done: Bool) {
-        MobS.updateState {
-            todo.title = title
-            todo.done = done
-        }
-    }
 
 }
 
-extension TodoCellModel: Hashable {
+extension TodoListViewModel {
 
-    static func == (lhs: TodoCellModel, rhs: TodoCellModel) -> Bool {
-        return lhs.todo.id == rhs.todo.id
+    private func updateTodoCellModels() {
+        todoCellModels = allTodoCellModels.filter(todoFilter.filter)
+        title = "\(todoFilter.listViewTitle) :: \(todoCellModels.count)"
     }
 
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(todo.id)
-    }
-
-}
-
-enum TodoFilterType {
-
-    typealias Filter = (TodoCellModel) -> Bool
-
-    case all
-    case done
-    case wip
-
-    var todoFilter: Filter {
-        switch self {
-        case .all:
-            return { _ in true }
-        case .wip:
-            return { !$0.todo.done }
-        case .done:
-            return { $0.todo.done }
-        }
-    }
-
-    var listViewTitle: String {
-        switch self {
-        case .all:
-            return "Todo List :: All"
-        case .wip:
-            return "Todo List :: WIP"
-        case .done:
-            return "Todo List :: Done"
-        }
-    }
-
-    mutating func toggle() {
-        switch self {
-        case .all:
-            self = .wip
-        case .wip:
-            self = .done
-        case .done:
-            self = .all
+    private func addTestTodos() {
+        allTodoCellModels = (1 ..< 10).map {
+            let randomTodo = [String](repeating: "Todo", count: Int.random(in: 1 ..< 15)).joined(separator: " ")
+            let todo = Todo(title: "\(randomTodo) \($0)", done: $0 % 2 == 0)
+            return TodoCellModel(todo: todo) { [weak self] in self?.updateTodoCellModels() }
         }
     }
 

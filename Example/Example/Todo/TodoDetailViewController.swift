@@ -14,7 +14,7 @@ class TodoDetailViewController: UIViewController {
     var viewModel: TodoListViewModel!
     var todoCellModel: TodoCellModel!
 
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var doneSwitch: UISwitch!
     @IBOutlet weak var changeView: SoftUIView!
     
@@ -33,12 +33,12 @@ class TodoDetailViewController: UIViewController {
         changeView.addLabel(text: "Commit")
         changeView.addTarget(self, action: #selector(commit), for: .touchUpInside)
 
-        textField.text = todoCellModel.todo.title
+        textView.text = todoCellModel.todo.title
         doneSwitch.isOn = todoCellModel.todo.done
     }
 
     @objc func commit() {
-        todoCellModel.update(title: textField.text ?? "", done: doneSwitch.isOn)
+        todoCellModel.update(title: textView.text ?? "", done: doneSwitch.isOn)
         navigationController?.popViewController(animated: true)
     }
 
