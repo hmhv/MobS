@@ -23,6 +23,17 @@ class CountUpViewController: UIViewController {
             self.countLabel.text = "\(self.count)"
         }
 
+//        let removable = $count.addObserver { [weak self] in
+//            guard let self = self else { return }
+//            self.countLabel.text = "\(self.count)"
+//        }
+//        removable.removed(by: remover)
+
+//        $count.addObserver { [weak self] in
+//            guard let self = self else { return }
+//            self.countLabel.text = "\(self.count)"
+//        }.removed(by: remover)
+
 //        $count.bind(to: countLabel, keyPath: \.text) { (count) in
 //            "\(count)"
 //        }

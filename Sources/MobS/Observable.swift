@@ -66,23 +66,24 @@ extension MobS {
             }
         }
 
-        @discardableResult
+        public func addObserver(skipInitialCall: Bool = false,
+                                action: @escaping () -> Void) -> MobSRemovable {
+            MobS.addObserver(observables: [self], skipInitialCall: skipInitialCall) {
+                action()
+            }
+        }
+
         public func addObserver<O: MobSRemoverOwner>(with owner: O,
-                                                 skipInitialCall: Bool = false,
-                                                 useRemover: Bool = true,
-                                                 action: @escaping (O) -> Void) -> MobSRemovable {
-            let observer = MobS.addObserver(observables: [self], skipInitialCall: skipInitialCall) { [weak owner] in
+                                                     skipInitialCall: Bool = false,
+                                                     action: @escaping (O) -> Void) {
+            MobS.addObserver(observables: [self], skipInitialCall: skipInitialCall) { [weak owner] in
                 guard let owner = owner else { return }
                 action(owner)
-            }
-            if useRemover {
-                observer.removed(by: owner.remover)
-            }
-            return observer
+            }.removed(by: owner.remover)
         }
 
         public func bind<O: MobSRemoverOwner>(to owner: O,
-                                          keyPath: ReferenceWritableKeyPath<O, T>) {
+                                              keyPath: ReferenceWritableKeyPath<O, T>) {
             MobS.addObserver(observables: [self], skipInitialCall: false) { [weak self, weak owner] in
                 guard let self = self, let owner = owner else { return }
                 owner[keyPath: keyPath] = self.wrappedValue
@@ -90,8 +91,8 @@ extension MobS {
         }
 
         public func bind<O: MobSRemoverOwner, R>(to owner: O,
-                                             keyPath: ReferenceWritableKeyPath<O, R>,
-                                             transform: @escaping (T) -> R) {
+                                                 keyPath: ReferenceWritableKeyPath<O, R>,
+                                                 transform: @escaping (T) -> R) {
             MobS.addObserver(observables: [self], skipInitialCall: false) { [weak self, weak owner] in
                 guard let self = self, let owner = owner else { return }
                 owner[keyPath: keyPath] = transform(self.wrappedValue)
