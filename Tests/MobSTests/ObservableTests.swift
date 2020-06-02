@@ -78,8 +78,8 @@ fileprivate class ViewController: MobSRemoverOwner {
     var scoreStringOutput = ""
 
     func setupForObservableAddObserver() {
-        viewModel.$score.addObserver(with: self) { (self) in
-            self.scoreOutput = self.viewModel.score
+        viewModel.$score.addObserver(with: self) { (self, score) in
+            self.scoreOutput = score
         }
     }
 

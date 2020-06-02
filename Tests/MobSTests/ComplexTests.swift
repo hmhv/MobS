@@ -108,11 +108,11 @@ fileprivate class ViewModel: MobSRemoverOwner {
     var o3: Int
 
     init() {
-        $o1.addObserver(with: self) { (self) in
-            self.o2 = self.o1
+        $o1.addObserver(with: self) { (self, o1) in
+            self.o2 = o1
         }
-        $o2.addObserver(with: self) { (self) in
-            self.o3 = self.o2
+        $o2.addObserver(with: self) { (self, o2) in
+            self.o3 = o2
         }
     }
 
@@ -129,14 +129,14 @@ fileprivate class ViewController: MobSRemoverOwner {
     var callCount = 0
 
     func setupForUpdate() {
-        viewModel.$o1.addObserver(with: self) { (self) in
-            self.o1Output = self.viewModel.o1
+        viewModel.$o1.addObserver(with: self) { (self, o1) in
+            self.o1Output = o1
         }
-        viewModel.$o2.addObserver(with: self) { (self) in
-            self.o2Output = self.viewModel.o2
+        viewModel.$o2.addObserver(with: self) { (self, o2) in
+            self.o2Output = o2
         }
-        viewModel.$o3.addObserver(with: self) { (self) in
-            self.o3Output = self.viewModel.o3
+        viewModel.$o3.addObserver(with: self) { (self, o3) in
+            self.o3Output = o3
         }
     }
 

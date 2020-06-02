@@ -40,14 +40,14 @@ class GithubSearchViewController: UIViewController {
     }
 
     private func setupObserver() {
-        viewModel.$repos.addObserver(with: self) { (self) in
+        viewModel.$repos.addObserver(with: self) { (self, _) in
             self.reloadData()
         }
         viewModel.$isLoading.bind(to: footerView, keyPath: \.isHidden) { (isLoading) in
             !isLoading
         }
-        viewModel.$error.addObserver(with: self) { (self) in
-            if let error = self.viewModel.error {
+        viewModel.$error.addObserver(with: self) { (self, error) in
+            if let error = error {
                 let message: String
                 if case GithubSearchError.error403 = error {
                     message = "API rate limit exceeded. Use Basic Authentication or OAuth for more test."

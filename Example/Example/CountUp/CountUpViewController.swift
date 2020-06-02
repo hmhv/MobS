@@ -19,8 +19,8 @@ class CountUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        $count.addObserver(with: self) { (self) in
-            self.countLabel.text = "\(self.count)"
+        $count.addObserver(with: self) { (self, count) in
+            self.countLabel.text = "\(count)"
         }
 
 //        let removable = $count.addObserver { [weak self] in

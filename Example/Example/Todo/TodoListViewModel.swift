@@ -26,7 +26,9 @@ class TodoListViewModel: MobSRemoverOwner {
     init() {
         defer { addTestTodos() }
 
-        [$todoFilter, $allTodoCellModels].addObserver(with: self) { (self) in
+        MobS.combine2(o1: $todoFilter,
+                      o2: $allTodoCellModels,
+                      with: self) { (self, todoFilter, allTodoCellModels) in
             self.updateTodoCellModels()
         }
     }

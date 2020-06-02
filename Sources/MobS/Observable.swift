@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol ObserverCheckable {
+    func checkObserver()
+}
+
 extension MobS {
 
     @propertyWrapper
@@ -67,18 +71,19 @@ extension MobS {
         }
 
         public func addObserver(skipInitialCall: Bool = false,
-                                action: @escaping () -> Void) -> MobSRemovable {
-            MobS.addObserver(observables: [self], skipInitialCall: skipInitialCall) {
-                action()
+                                action: @escaping (T) -> Void) -> MobSRemovable {
+            MobS.addObserver(observables: [self], skipInitialCall: skipInitialCall) { [weak self] in
+                guard let self = self else { return }
+                action(self.value)
             }
         }
 
         public func addObserver<O: MobSRemoverOwner>(with owner: O,
                                                      skipInitialCall: Bool = false,
-                                                     action: @escaping (O) -> Void) {
-            MobS.addObserver(observables: [self], skipInitialCall: skipInitialCall) { [weak owner] in
-                guard let owner = owner else { return }
-                action(owner)
+                                                     action: @escaping (O, T) -> Void) {
+            MobS.addObserver(observables: [self], skipInitialCall: skipInitialCall) { [weak owner, weak self] in
+                guard let owner = owner, let self = self else { return }
+                action(owner, self.value)
             }.removed(by: owner.remover)
         }
 
@@ -86,7 +91,7 @@ extension MobS {
                                               keyPath: ReferenceWritableKeyPath<O, T>) {
             MobS.addObserver(observables: [self], skipInitialCall: false) { [weak self, weak owner] in
                 guard let self = self, let owner = owner else { return }
-                owner[keyPath: keyPath] = self.wrappedValue
+                owner[keyPath: keyPath] = self.value
             }.removed(by: owner.remover)
         }
 
@@ -95,7 +100,7 @@ extension MobS {
                                                  transform: @escaping (T) -> R) {
             MobS.addObserver(observables: [self], skipInitialCall: false) { [weak self, weak owner] in
                 guard let self = self, let owner = owner else { return }
-                owner[keyPath: keyPath] = transform(self.wrappedValue)
+                owner[keyPath: keyPath] = transform(self.value)
             }.removed(by: owner.remover)
         }
 
@@ -103,10 +108,9 @@ extension MobS {
 
 }
 
-extension MobS.Observable: MobSObserverCheckable {
+extension MobS.Observable: ObserverCheckable {
 
-    /// Don't call this method directly. For internal use only.
-    public func checkObserver() {
+    func checkObserver() {
         if let activeObserver = MobS.activeObservers.last {
             activeObserver.add(notifier: notifier)
             notifier.add(observer: activeObserver)

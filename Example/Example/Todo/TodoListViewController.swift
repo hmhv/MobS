@@ -15,7 +15,7 @@ enum TodoSection: CaseIterable {
 class TodoListViewController: UITableViewController {
 
     private let viewModel = TodoListViewModel()
-    private lazy var dataSource: UITableViewDiffableDataSource<TodoSection, TodoCellModel> = {
+    private lazy var diffableDataSource: UITableViewDiffableDataSource<TodoSection, TodoCellModel> = {
         let dataSource = UITableViewDiffableDataSource<TodoSection, TodoCellModel>(tableView: tableView) { [weak self] (tableView, indexPath, item) in
             guard let self = self else { return nil }
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TodoCell.self), for: indexPath) as! TodoCell
@@ -37,15 +37,17 @@ class TodoListViewController: UITableViewController {
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTodo))
         navigationItem.rightBarButtonItems = [addItem, filterItem]
 
-        tableView.dataSource = dataSource
+        // UITableViewDiffableDataSource is slow.
+        // Comment out the line of code below, if you test many TodoCellModels.
+        tableView.dataSource = diffableDataSource
     }
 
     private func setupViewModel() {
-        viewModel.$title.addObserver(with: self) { (self) in
-            self.navigationItem.title = self.viewModel.title
+        viewModel.$title.addObserver(with: self) { (self, title) in
+            self.navigationItem.title = title
         }
-        viewModel.$todoCellModels.addObserver(with: self) { (self) in
-            self.updateTableView(with: self.viewModel.todoCellModels)
+        viewModel.$todoCellModels.addObserver(with: self) { (self, todoCellModels) in
+            self.updateTableView(with: todoCellModels)
         }
     }
 
@@ -69,10 +71,24 @@ class TodoListViewController: UITableViewController {
 extension TodoListViewController {
 
     func updateTableView(with cellModels: [TodoCellModel]) {
-        var snapshot = NSDiffableDataSourceSnapshot<TodoSection, TodoCellModel>()
-        snapshot.appendSections(TodoSection.allCases)
-        snapshot.appendItems(cellModels, toSection: .todo)
-        dataSource.apply(snapshot)
+        if tableView.dataSource is UITableViewDiffableDataSource<TodoSection, TodoCellModel> {
+            var snapshot = NSDiffableDataSourceSnapshot<TodoSection, TodoCellModel>()
+            snapshot.appendSections(TodoSection.allCases)
+            snapshot.appendItems(cellModels, toSection: .todo)
+            diffableDataSource.apply(snapshot)
+        } else {
+            tableView.reloadData()
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.todoCellModels.count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TodoCell.self), for: indexPath) as! TodoCell
+        cell.cellModel = viewModel.todoCellModels[indexPath.row]
+        return cell
     }
 
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
