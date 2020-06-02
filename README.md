@@ -52,8 +52,8 @@ class CountUpViewController: UIViewController {
         super.viewDidLoad()
 
         // ②Create Observer
-        $count.addObserver(with: self) { (self) in
-            self.countLabel.text = "\(self.count)"
+        $count.addObserver(with: self) { (self, count) in
+            self.countLabel.text = "\(count)"
         }
     }
     
