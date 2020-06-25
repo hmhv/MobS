@@ -62,8 +62,10 @@ extension MobS {
         }
 
         deinit {
-            if MobS.isTraceEnabled {
+            runOnMainThread {
                 notifier.removeAll()
+            }
+            if MobS.isTraceEnabled {
                 runOnMainThread {
                     MobS.numberOfObservable -= 1
                 }
