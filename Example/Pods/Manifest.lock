@@ -1,5 +1,5 @@
 PODS:
-  - MobS (0.5.0)
+  - MobS (0.5.1)
   - SoftUIView (0.0.2)
 
 DEPENDENCIES:
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  MobS: 65c0d058fb96660c9fbdcee1d38afb60e5dd0da4
+  MobS: afc8ea530671bfc884821e66ba1b685e45c7dfe1
   SoftUIView: e04596489fc59b5c50ba4b2f970d82a277430263
 
 PODFILE CHECKSUM: 03b81c4fdef7a365224d8694951f632e84d13d80
